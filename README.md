@@ -274,7 +274,7 @@ The workflow generates markdown one-pagers with:
 - Key risks & mitigants section with expandable sources
 - Full lineage traceability
 
-Example output: `data/LP_OnePager_Acme_Software_Inc_2025_09_30_nondet.md`
+Example output: `output/LP_OnePager_Acme_Software_Inc_2025_09_30_nondet.md`
 
 ---
 
