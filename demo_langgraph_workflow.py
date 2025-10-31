@@ -33,6 +33,9 @@ async def main():
     # Create workflow app
     app = create_workflow_app(mcp_server_url=MCP_SERVER)
     
+    # Get LLM model from environment
+    LLM_MODEL = os.getenv("LLM_MODEL", "gpt-3.5-turbo")
+    
     # Initialize state
     initial_state: WorkflowState = {
         "deal_id": DEAL_ID,
@@ -42,6 +45,7 @@ async def main():
         "mcp_server_url": MCP_SERVER,
         "mcp_caller": None,
         "session_id": None,
+        "llm_model": LLM_MODEL,
         "discovered_files": {},
         "ingestion_results": {},
         "kpi_results": {},

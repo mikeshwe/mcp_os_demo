@@ -15,6 +15,7 @@ class WorkflowState(TypedDict):
     period_end: str
     data_dir: str
     mcp_server_url: str  # Add this for workflow initialization
+    llm_model: Optional[str]  # LLM model name (from LLM_MODEL env var)
     
     # Workflow state
     mcp_caller: Optional[Any]  # McpToolCaller instance
@@ -23,9 +24,12 @@ class WorkflowState(TypedDict):
     # Step results
     discovered_files: Dict[str, List[str]]
     ingestion_results: Dict[str, Any]
+    ingestion_validation: Optional[Dict[str, Any]]  # For non-deterministic workflow
     kpi_results: Dict[str, Any]
+    kpi_validation: Optional[Dict[str, Any]]  # For non-deterministic workflow
     snapshot: List[Dict[str, Any]]
     bullets: Dict[str, List[str]]
+    content_validation: Optional[Dict[str, Any]]  # For non-deterministic workflow
     markdown: str
     output_file: Optional[str]
     

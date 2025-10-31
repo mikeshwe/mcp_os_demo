@@ -36,7 +36,9 @@ def create_workflow_graph() -> StateGraph:
         deal_id = state["deal_id"]
         data_dir = state["data_dir"]
         
-        agent = IngestionAgent(mcp_caller, use_llm=True)
+        # Get model from state or env var
+        model = state.get("llm_model") or os.getenv("LLM_MODEL", "gpt-3.5-turbo")
+        agent = IngestionAgent(mcp_caller, use_llm=True, model=model)
         
         # Discover files
         files = await agent.discover_files(data_dir)
@@ -62,7 +64,9 @@ def create_workflow_graph() -> StateGraph:
         mcp_caller = state["mcp_caller"]
         deal_id = state["deal_id"]
         
-        agent = KPIComputationAgent(mcp_caller, use_llm=True)
+        # Get model from state or env var
+        model = state.get("llm_model") or os.getenv("LLM_MODEL", "gpt-3.5-turbo")
+        agent = KPIComputationAgent(mcp_caller, use_llm=True, model=model)
         
         # Compute KPIs
         kpi_results = await agent.compute_kpis(deal_id)
@@ -122,7 +126,9 @@ def create_workflow_graph() -> StateGraph:
         deal_id = state["deal_id"]
         snapshot = state["snapshot"]
         
-        agent = ContentGenerationAgent(mcp_caller, use_llm=True)
+        # Get model from state or env var
+        model = state.get("llm_model") or os.getenv("LLM_MODEL", "gpt-3.5-turbo")
+        agent = ContentGenerationAgent(mcp_caller, use_llm=True, model=model)
         
         # Generate content
         bullets = await agent.generate_content(deal_id, snapshot)
