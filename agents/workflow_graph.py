@@ -189,7 +189,6 @@ def create_workflow_graph() -> StateGraph:
     async def save_output_node(state: WorkflowState) -> Dict[str, Any]:
         """Save output file"""
         markdown = state["markdown"]
-        data_dir = state["data_dir"]
         company_name = state["company_name"]
         period_end = state["period_end"]
         
@@ -197,7 +196,8 @@ def create_workflow_graph() -> StateGraph:
             return {"errors": state.get("errors", []) + ["No markdown to save"]}
         
         safe_name = company_name.replace(" ", "_").replace(",", "").replace(".", "")
-        output_file = f"{data_dir}/LP_OnePager_{safe_name}_{period_end.replace('-', '_')}.md"
+        output_dir = "output"
+        output_file = f"{output_dir}/LP_OnePager_{safe_name}_{period_end.replace('-', '_')}.md"
         
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
         with open(output_file, 'w') as f:

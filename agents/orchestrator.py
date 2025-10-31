@@ -324,7 +324,8 @@ Generate investment thesis and risks as JSON:
         # Step 7: Save output
         if not output_file:
             safe_name = company_name.replace(" ", "_").replace(",", "").replace(".", "")
-            output_file = f"{data_dir}/LP_OnePager_{safe_name}_{period_end.replace('-', '_')}.md"
+            output_dir = "output"
+            output_file = f"{output_dir}/LP_OnePager_{safe_name}_{period_end.replace('-', '_')}.md"
         
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
         with open(output_file, 'w') as f:

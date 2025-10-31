@@ -246,7 +246,9 @@ echo "$RENDER_RESPONSE" | python3 -c "import sys, json; data = json.load(sys.std
 echo ""
 
 # Extract markdown from response and save to file
-OUTPUT_FILE="${DATA_DIR}/LP_OnePager_${DEAL_NAME// /_}_Q3_2025.md"
+OUTPUT_DIR="output"
+mkdir -p "$OUTPUT_DIR"
+OUTPUT_FILE="${OUTPUT_DIR}/LP_OnePager_${DEAL_NAME// /_}_Q3_2025.md"
 OUTPUT_FILE="${OUTPUT_FILE//,/_}"  # Remove commas from filename
 MARKDOWN=$(echo "$RENDER_RESPONSE" | python3 -c "
 import sys, json
@@ -297,7 +299,7 @@ echo "  ✓ Computed KPIs from table cells"
 echo "  ✓ Fetched approved Golden Facts"
 echo "  ✓ Retrieved KPI lineage for traceability"
 echo "  ✓ Rendered LP one-pager markdown (using vector search for memo sources)"
-echo "  ✓ Saved markdown file to: ${OUTPUT_FILE:-data/LP_OnePager_*.md}"
+echo "  ✓ Saved markdown file to: ${OUTPUT_FILE:-output/LP_OnePager_*.md}"
 echo "  ✓ Registered output artifact"
 echo ""
 echo -e "${YELLOW}Note:${NC} The demo uses pre-seeded data. To start fresh:"
