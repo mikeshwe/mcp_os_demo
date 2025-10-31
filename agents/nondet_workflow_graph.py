@@ -41,7 +41,9 @@ def create_non_deterministic_workflow_graph() -> StateGraph:
         print(f"📥 Ingestion Agent (Attempt {retry_count + 1})")
         print(f"{'='*60}")
         
-        agent = IngestionAgent(mcp_caller, use_llm=True)
+        # Get model from state or env var
+        model = state.get("llm_model") or os.getenv("LLM_MODEL", "gpt-3.5-turbo")
+        agent = IngestionAgent(mcp_caller, use_llm=True, model=model)
         
         # Discover files
         files = await agent.discover_files(data_dir)
@@ -73,7 +75,9 @@ def create_non_deterministic_workflow_graph() -> StateGraph:
         deal_id = state["deal_id"]
         data_dir = state["data_dir"]
         
-        agent = IngestionAgent(mcp_caller, use_llm=False)  # Use fallback strategy
+        # Get model from state or env var (even though we're using fallback strategy)
+        model = state.get("llm_model") or os.getenv("LLM_MODEL", "gpt-3.5-turbo")
+        agent = IngestionAgent(mcp_caller, use_llm=False, model=model)  # Use fallback strategy
         
         files = await agent.discover_files(data_dir)
         results = await agent.ingest_all(deal_id, data_dir)
@@ -112,7 +116,9 @@ def create_non_deterministic_workflow_graph() -> StateGraph:
         print(f"📊 KPI Computation Agent")
         print(f"{'='*60}")
         
-        agent = KPIComputationAgent(mcp_caller, use_llm=True)
+        # Get model from state or env var
+        model = state.get("llm_model") or os.getenv("LLM_MODEL", "gpt-3.5-turbo")
+        agent = KPIComputationAgent(mcp_caller, use_llm=True, model=model)
         
         # Validate data quality first
         quality = await agent.validate_data_quality(deal_id)
@@ -213,7 +219,9 @@ def create_non_deterministic_workflow_graph() -> StateGraph:
         print(f"✍️  Content Generation Agent")
         print(f"{'='*60}")
         
-        agent = ContentGenerationAgent(mcp_caller, use_llm=True)
+        # Get model from state or env var
+        model = state.get("llm_model") or os.getenv("LLM_MODEL", "gpt-3.5-turbo")
+        agent = ContentGenerationAgent(mcp_caller, use_llm=True, model=model)
         
         # Generate content
         bullets = await agent.generate_content(deal_id, snapshot)

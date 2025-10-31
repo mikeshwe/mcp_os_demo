@@ -441,6 +441,7 @@ The system uses a **multi-agent architecture** powered by **LangGraph** to orche
 
 - **Features**:
   - LLM determines optimal ingestion strategy based on file types and content
+  - LLM model configurable via `LLM_MODEL` environment variable (default: `gpt-3.5-turbo`)
   - Retries failed ingestions with alternative parameters (up to 2 retries)
   - Validates that required file types are ingested
   - Provides warnings and recommendations for missing data
@@ -455,6 +456,7 @@ The system uses a **multi-agent architecture** powered by **LangGraph** to orche
 - **Features**:
   - Checks data availability before computation
   - LLM determines optimal parameters (periods_to_sum, approve, ttl_days)
+  - LLM model configurable via `LLM_MODEL` environment variable (default: `gpt-3.5-turbo`)
   - Validates that required KPIs are computed
   - Falls back to existing KPIs if computation fails
 
@@ -468,6 +470,7 @@ The system uses a **multi-agent architecture** powered by **LangGraph** to orche
 - **Features**:
   - Analyzes financial trends (revenue growth, margin trends, key metrics)
   - Generates data-driven, contextually relevant content
+  - LLM model configurable via `LLM_MODEL` environment variable (default: `gpt-3.5-turbo`)
   - Validates content completeness (thesis and risks bullets)
   - Falls back to default content if generation fails
 
@@ -534,6 +537,14 @@ The workflow is implemented using:
 - **LangChain**: LLM integration for intelligent decision-making
 - **Python Agents**: Specialized agent classes for each domain
 - **MCP Tools**: Underlying tools exposed via MCP protocol
+
+### LLM Configuration
+
+All agents use a **configurable LLM model** via the `LLM_MODEL` environment variable:
+- **Default**: `gpt-3.5-turbo`
+- **Configurable**: Set `LLM_MODEL` in `.env` file (e.g., `LLM_MODEL=gpt-4`)
+- **Consistency**: All agents (IngestionAgent, KPIComputationAgent, ContentGenerationAgent) use the same model
+- **Fallback**: If `OPENAI_API_KEY` is not set, agents use rule-based fallback strategies instead of LLM calls
 
 ### Usage
 

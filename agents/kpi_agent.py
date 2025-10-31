@@ -12,7 +12,7 @@ from agents.mcp_tools import McpToolCaller
 class KPIComputationAgent:
     """Agent responsible for computing and validating KPIs"""
     
-    def __init__(self, mcp_caller: McpToolCaller, use_llm: bool = True):
+    def __init__(self, mcp_caller: McpToolCaller, use_llm: bool = True, model: str = None):
         self.mcp_caller = mcp_caller
         self.use_llm = use_llm
         self.llm = None
@@ -21,7 +21,9 @@ class KPIComputationAgent:
             try:
                 import os
                 if os.getenv("OPENAI_API_KEY"):
-                    self.llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
+                    # Use provided model or fall back to env var or default
+                    model = model or os.getenv("LLM_MODEL", "gpt-3.5-turbo")
+                    self.llm = ChatOpenAI(model=model, temperature=0)
             except Exception:
                 self.use_llm = False
     

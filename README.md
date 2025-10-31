@@ -38,7 +38,9 @@ MCP_SERVER_URL=http://localhost:3333/mcp
 
 # LangChain Agent Configuration (optional, for LLM content generation)
 OPENAI_API_KEY=your_openai_api_key_here  # Optional - enables LLM-generated content
-LLM_MODEL=gpt-3.5-turbo                  # Optional - OpenAI model to use
+LLM_MODEL=gpt-3.5-turbo                  # Optional - OpenAI model to use (default: gpt-3.5-turbo)
+                                         # All agents (IngestionAgent, KPIComputationAgent, ContentGenerationAgent) use this model
+                                         # Supported: gpt-3.5-turbo, gpt-4, gpt-4-turbo, etc.
 
 # Workflow Configuration (optional)
 DEAL_ID=00000000-0000-0000-0000-000000000001
@@ -51,6 +53,8 @@ DATA_DIR=./data
 - Embeddings are generated using **local models** (ChromaDB) - no API key required!
 - `OPENAI_API_KEY` is **optional** - only needed for LLM-generated investment thesis and risks
 - If `OPENAI_API_KEY` is not set, the system will use fallback content
+- `LLM_MODEL` configures the OpenAI model used by all agents (IngestionAgent, KPIComputationAgent, ContentGenerationAgent)
+- Default model is `gpt-3.5-turbo`; can be changed to `gpt-4`, `gpt-4-turbo`, etc.
 
 ### 3. Start MCP Server
 
@@ -155,19 +159,19 @@ The system uses a **multi-agent architecture** powered by **LangGraph** with thr
 
 #### 1. **IngestionAgent**
 - Automatically discovers data files
-- Determines optimal ingestion order (LLM-powered)
+- Determines optimal ingestion order (LLM-powered, configurable via `LLM_MODEL`)
 - Retries failed ingestions with alternative strategies
 - Validates ingestion results
 
 #### 2. **KPIComputationAgent**
 - Validates data quality before computation
-- Determines optimal KPI parameters (LLM-powered)
+- Determines optimal KPI parameters (LLM-powered, configurable via `LLM_MODEL`)
 - Computes KPIs with validation
 - Falls back to existing KPIs if computation fails
 
 #### 3. **ContentGenerationAgent**
 - Analyzes financial trends
-- Generates investment thesis and risks using LLM
+- Generates investment thesis and risks using LLM (configurable via `LLM_MODEL`)
 - Validates content quality
 - Falls back to default content if generation fails
 
@@ -310,6 +314,8 @@ npx tsx mcp-lp-tools-server.ts
 - Set `OPENAI_API_KEY` in `.env` file
 - Or export: `export OPENAI_API_KEY=your_key`
 - If not set, system uses fallback content (still works!)
+- Configure LLM model via `LLM_MODEL` env var (default: `gpt-3.5-turbo`)
+- All agents use the same model configured in `LLM_MODEL`
 
 ### Import Errors
 Ensure all dependencies are installed:
