@@ -1,0 +1,20 @@
+concept,endDate,period,fiscalPeriodEndDate,value,unit,label
+us-gaap:Revenues,2025-09-30,2025-Q3,2025-09-30,124300000,USD,Revenues
+us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax,2025-09-30,2025-Q3,2025-09-30,124300000,USD,Revenue from contracts with customers
+us-gaap:GrossProfit,2025-09-30,2025-Q3,2025-09-30,89600000,USD,Gross profit
+us-gaap:OperatingIncomeLoss,2025-09-30,2025-Q3,2025-09-30,23100000,USD,Operating income
+us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest,2025-09-30,2025-Q3,2025-09-30,22900000,USD,Income from continuing operations before taxes
+us-gaap:NetIncomeLoss,2025-09-30,2025-Q3,2025-09-30,17500000,USD,Net income
+us-gaap:Assets,2025-09-30,2025-Q3,2025-09-30,485000000,USD,Total assets
+us-gaap:Liabilities,2025-09-30,2025-Q3,2025-09-30,198000000,USD,Total liabilities
+us-gaap:StockholdersEquity,2025-09-30,2025-Q3,2025-09-30,287000000,USD,Stockholders equity
+us-gaap:Revenues,2024-09-30,2024-Q3,2024-09-30,96800000,USD,Revenues
+us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax,2024-09-30,2024-Q3,2024-09-30,96800000,USD,Revenue from contracts with customers
+us-gaap:GrossProfit,2024-09-30,2024-Q3,2024-09-30,66300000,USD,Gross profit
+us-gaap:OperatingIncomeLoss,2024-09-30,2024-Q3,2024-09-30,14500000,USD,Operating income
+us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest,2024-09-30,2024-Q3,2024-09-30,14200000,USD,Income from continuing operations before taxes
+us-gaap:NetIncomeLoss,2024-09-30,2024-Q3,2024-09-30,10800000,USD,Net income
+us-gaap:Assets,2024-09-30,2024-Q3,2024-09-30,412000000,USD,Total assets
+us-gaap:Liabilities,2024-09-30,2024-Q3,2024-09-30,178000000,USD,Total liabilities
+us-gaap:StockholdersEquity,2024-09-30,2024-Q3,2024-09-30,234000000,USD,Stockholders equity
+

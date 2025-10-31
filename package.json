@@ -1,0 +1,27 @@
+{
+  "name": "mcp-lp-tools",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "MCP LP One-Pager Tools Server",
+  "main": "mcp-lp-tools-server.ts",
+  "scripts": {
+    "start": "tsx mcp-lp-tools-server.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.20.2",
+    "csv-parse": "^6.1.0",
+    "dayjs": "^1.11.18",
+    "dotenv": "^17.2.3",
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "pg": "^8.16.3",
+    "xlsx": "^0.18.5",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/pg": "^8.10.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.0.0"
+  }
+}

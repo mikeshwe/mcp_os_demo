@@ -1,0 +1,64 @@
+{
+    "name": "mcp-os-lp-onepager",
+    "description": "MCP OS to ingest finance data, compute KPIs, and render LP one-pagers.",
+    "goals": [
+      "Ingest Excel/CSV/memo sources into a normalized context store",
+      "Compute KPIs (Revenue_LTM, YoY_Growth, margins) with lineage",
+      "Render a branded LP one-pager from approved GoldenFacts"
+    ],
+    "context": {
+      "include": [
+        "mcp-lp-tools-server.ts",
+        "sql/**/*.sql",
+        "docker-compose.yml",
+        "README.md",
+        "prd_mcp_lp_onepager.md"
+      ],
+      "exclude": ["node_modules/**", "dist/**", ".git/**"]
+    },
+    "env": {
+      "DB_URL": "postgres://mcp:mcp@localhost:5433/mcp_ctx",
+      "PORT": "3333"
+    },
+    "commands": [
+      {
+        "name": "db:up",
+        "shell": "docker compose up -d"
+      },
+      {
+        "name": "db:seed",
+        "shell": "psql \"$DB_URL\" -f sql/01_schema.sql && psql \"$DB_URL\" -f sql/02_seed.sql"
+      },
+      {
+        "name": "mcp:dev",
+        "shell": "npx ts-node mcp-lp-tools-server.ts",
+        "description": "Run MCP server with ts-node on PORT"
+      },
+      {
+        "name": "mcp:build",
+        "shell": "tsc -p .",
+        "description": "Compile TypeScript"
+      },
+      {
+        "name": "mcp:start",
+        "shell": "node dist/mcp-lp-tools-server.js",
+        "description": "Run compiled MCP server"
+      },
+      {
+        "name": "test:tools",
+        "shell": "curl -s http://localhost:$PORT/tools | jq ."
+      },
+      {
+        "name": "test:compute-kpis",
+        "shell": "curl -s -X POST http://localhost:$PORT/tools/compute_kpis/invoke -H 'Content-Type: application/json' -d '{\"deal_id\":\"00000000-0000-0000-0000-000000000001\",\"periods_to_sum\":4,\"approve\":true,\"ttl_days\":90}' | jq ."
+      }
+    ],
+    "quickstarts": [
+      "Run `db:up`, then `db:seed`, then `mcp:dev`.",
+      "Verify with `test:tools` and `test:compute-kpis`."
+    ],
+    "editor": {
+      "openFiles": ["prd_mcp_lp_onepager.md", "mcp-lp-tools-server.ts"],
+      "suggestions": [
+        "Review SQL schema in
+  

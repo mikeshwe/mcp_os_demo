@@ -1,0 +1,55 @@
+# Acme Software, Inc. — Q3 2025 Update Memo
+
+## Executive Summary
+
+Acme Software continues to demonstrate strong execution in Q3 2025, with revenue growth accelerating and margin expansion driven by enterprise customer adoption and operational efficiency improvements.
+
+## Financial Performance
+
+Revenue reached $124.3M in Q3 2025, representing 28% year-over-year growth. This growth was primarily driven by:
+
+- **Enterprise Segment**: Strong expansion within existing customers, with average contract value increasing 35% year-over-year
+- **New Customer Acquisition**: Added 12 enterprise customers in Q3, contributing $18M in new ARR
+- **Geographic Expansion**: European operations exceeded targets, accounting for 22% of total revenue
+
+Gross margins improved to 72.1%, up from 68.5% in the prior year quarter, driven by:
+- Product mix shift toward higher-margin SaaS offerings
+- Infrastructure cost optimization initiatives
+- Scale efficiencies in customer support operations
+
+EBITDA margins reached 18.6%, reflecting disciplined cost management while maintaining investment in R&D and sales capacity.
+
+## Product & Market
+
+### Product Highlights
+
+- **Acme Platform 3.0 Launch**: Successfully launched next-generation platform with AI-powered workflows, seeing strong adoption with 60% of enterprise customers upgrading within first quarter
+- **Integration Marketplace**: Expanded partner ecosystem with 15 new integrations, driving increased platform stickiness
+
+### Market Position
+
+Acme maintains its market leadership position in the workflow automation space, with Gartner recognizing the company as a "Leader" in the Magic Quadrant for the third consecutive year.
+
+## Key Risks & Mitigants
+
+### Risk: Competitive Pressure
+- **Mitigant**: Continuous product innovation and deep customer relationships provide strong moat
+- **Status**: Competitive landscape stable, no new material threats
+
+### Risk: Customer Concentration
+- **Mitigant**: Top 10 customers now represent 42% of revenue (down from 48% last year), diversification improving
+- **Status**: Healthy customer base expansion
+
+### Risk: Macroeconomic Uncertainty
+- **Mitigant**: Strong retention metrics (95%+ net revenue retention) and long-term contracts provide stability
+- **Status**: No material impact observed to date
+
+## Outlook
+
+Management expects Q4 revenue to continue strong momentum, with full-year guidance reaffirmed. Investment priorities remain focused on product development and international expansion, with disciplined approach to cost management.
+
+---
+
+*Confidential — For Limited Partners Only*
+*Prepared: October 2025*
+
