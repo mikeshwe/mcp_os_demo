@@ -38,5 +38,5 @@ venv/
 *.docx
 ~$*
 data/*.md
-output/*
-!output/README.md
+# output/* - Allow example generated files to be tracked
+# Individual generated files can be added if needed as examples
