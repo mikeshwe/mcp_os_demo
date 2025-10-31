@@ -38,4 +38,5 @@ venv/
 *.docx
 ~$*
 data/*.md
-output/
+output/*
+!output/README.md
