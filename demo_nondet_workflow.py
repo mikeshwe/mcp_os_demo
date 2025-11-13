@@ -6,6 +6,7 @@ Demonstrates conditional routing and decision-making
 import asyncio
 import os
 import sys
+import uuid
 from dotenv import load_dotenv
 from agents.nondet_workflow_graph import create_non_deterministic_workflow_app
 from agents.graph_state import WorkflowState
@@ -20,6 +21,7 @@ async def main():
     COMPANY_NAME = os.getenv("COMPANY_NAME", "Acme Software, Inc.")
     PERIOD_END = os.getenv("PERIOD_END", "2025-09-30")
     DATA_DIR = os.getenv("DATA_DIR", "./data")
+    SESSION_LABEL = os.getenv("SESSION_LABEL", f"{COMPANY_NAME} {PERIOD_END}")
     
     # Check if MCP server is running
     import httpx
@@ -46,6 +48,8 @@ async def main():
         "mcp_server_url": MCP_SERVER,
         "mcp_caller": None,
         "session_id": None,
+        "session_label": SESSION_LABEL,
+        "run_id": None,
         "llm_model": LLM_MODEL,
         "discovered_files": {},
         "ingestion_results": {},
@@ -89,6 +93,8 @@ async def main():
         print(f"  Snapshot size: {summary.get('snapshot_size', 0)} KPIs")
         print(f"  Content generated: {summary.get('bullets_generated', 0)} bullets")
         print(f"  Output file: {summary.get('output_file', 'N/A')}")
+        print(f"  Session: {summary.get('session_label', summary.get('session_id'))}")
+        print(f"  Run ID: {summary.get('run_id', 'N/A')}")
         
         errors = summary.get("errors", [])
         if errors:
@@ -125,4 +131,3 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-

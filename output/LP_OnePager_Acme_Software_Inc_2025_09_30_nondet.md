@@ -8,30 +8,26 @@
 
 | Metric | Value | As of | Source |
 |:--|--:|:--|:--|
-| Revenue (LTM) | **$497.20 M USD** | Sep 30, 2025 | <details><summary>📊 View sources</summary><strong>EDGAR_XBRL</strong>:<br>- us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax | Revenue (Sep 2025) = 124300000 USD<br>- us-gaap:Revenues | Revenue (Sep 2025) = 124300000 USD<br><strong>P&L</strong>:<br>- financials!B6 | Revenue (Sep 2025) = 124.3 USD_mm<br>- financials!B2 | Revenue (Sep 2024) = 96.8 USD_mm</details> |
-| YoY Growth (%) | **28.4%** | Sep 30, 2025 | <details><summary>📊 View sources</summary><strong>EDGAR_XBRL</strong>:<br>- us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax | Revenue (Sep 2025) = 124300000 USD<br>- us-gaap:Revenues | Revenue (Sep 2025) = 124300000 USD<br>- us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax | Revenue (Sep 2024) = 96800000 USD<br>- us-gaap:Revenues | Revenue (Sep 2024) = 96800000 USD<br><strong>P&L</strong>:<br>- financials!B6 | Revenue (Sep 2025) = 124.3 USD_mm<br>- financials!B2 | Revenue (Sep 2024) = 96.8 USD_mm</details> |
+| Revenue (LTM) | **$497.20 M USD** | Sep 30, 2025 | <details><summary>📊 View sources</summary><strong>EDGAR_XBRL</strong>:<br>- us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax | Revenue (Sep 2025) = 124300000 USD<br>- us-gaap:Revenues | Revenue (Sep 2025) = 124300000 USD<br><strong>P&L</strong>:<br>- financials!B6 | Revenue (Sep 2025) = 124.3 USD_mm</details> |
+| YoY Growth (%) | **-100.0%** | Sep 30, 2025 | <details><summary>📊 View sources</summary><strong>EDGAR_XBRL</strong>:<br>- us-gaap:Revenues | Revenue (Sep 2025) = 124300000 USD<br>- us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax | Revenue (Sep 2025) = 124300000 USD<br>- us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax | Revenue (Sep 2024) = 96800000 USD<br>- us-gaap:Revenues | Revenue (Sep 2024) = 96800000 USD<br><strong>P&L</strong>:<br>- financials!B6 | Revenue (Sep 2025) = 124.3 USD_mm<br>- financials!B2 | Revenue (Sep 2024) = 96.8 USD_mm</details> |
 | Gross Margin (%) | **72.1%** | Sep 30, 2025 | <details><summary>📊 View sources</summary><strong>P&L</strong>:<br>- financials!GM_row | GrossMargin (Sep 2025) = 72.1 pct</details> |
 | EBITDA Margin (%) | **18.6%** | Sep 30, 2025 | <details><summary>📊 View sources</summary><strong>P&L</strong>:<br>- financials!E6 | EBITDA_Margin (Sep 2025) = 18.6 pct</details> |
 
 ## Investment Thesis
-- 1. The company has demonstrated strong financial performance with a consistent EBITDA Margin of 18.6%, indicating efficient operations and profitability.
-- 2. The firm has shown impressive revenue growth of 28.4%, suggesting a robust business model and a strong market position.
-- 3. The company's Gross Margin of 72.1% is a testament to its cost-effective production and operational efficiency, providing a competitive advantage in the market.
-- 4. With a revenue of $497.2 million, the company has a significant market presence and the financial strength to invest in growth opportunities and innovations.
-- 5. The consistent financial metrics indicate a stable business model, providing an opportunity for steady returns on investment.
+- Strong revenue growth trajectory with expanding market share
+- Market leadership position maintained with strong competitive moat
+- Operational efficiency improvements driving margin expansion
 
 
-<details><summary>📊 View sources</summary><strong>Financial Performance</strong> (memo_q3_2025.txt): Acme Software continues to demonstrate strong execution in Q3 2025, with revenue growth accelerating and margin expansion driven by enterprise custome...</details>
+<details><summary>📊 View sources</summary><strong>Outlook</strong> (memo_q3_2025.txt): - **Mitigant**: Top 10 customers now represent 42% of revenue (down from 48% last year), diversification improving - **Status**: Healthy customer base...<br><br><strong>Outlook</strong> (memo_q3_2025.txt): - **Mitigant**: Top 10 customers now represent 42% of revenue (down from 48% last year), diversification improving - **Status**: Healthy customer base...<br><br><strong>Outlook</strong> (memo_q3_2025.txt): - **Mitigant**: Top 10 customers now represent 42% of revenue (down from 48% last year), diversification improving - **Status**: Healthy customer base...</details>
 
 ## Key Risks & Mitigants
-- Risk 1: Market Volatility (Mitigant: The company has a diversified portfolio and a risk management strategy in place to mitigate the effects of market volatility.)
-- Risk 2: Regulatory Changes (Mitigant: The company has a dedicated legal team that stays abreast of all regulatory changes and ensures compliance. Additionally, the company maintains a good relationship with regulatory bodies.)
-- Risk 3: Economic Downturn (Mitigant: The company has a strong balance sheet and maintains a conservative financial policy, including maintaining sufficient liquidity and low levels of debt, to weather economic downturns.)
-- Risk 4: Technological Disruptions (Mitigant: The company invests significantly in R&D and stays updated with the latest technological advancements in its industry. It also has a dedicated team to manage and implement new technologies.)
-- Risk 5: Competitive Pressure (Mitigant: The company has a strong brand, a loyal customer base, and a strategy of continuous innovation and improvement to maintain its competitive edge.)
+- Customer concentration risk (mitigated by diversification efforts)
+- Competitive pressure in core markets (stable landscape, strong moat)
+- Macroeconomic uncertainty (strong retention metrics provide stability)
 
 
-<details><summary>📊 View sources</summary><strong>Risk: Customer Concentration</strong> (memo_q3_2025.txt): EBITDA margins reached 18.6%, reflecting disciplined cost management while maintaining investment in R&D and sales capacity. - **Acme Platform 3....</details>
+<details><summary>📊 View sources</summary><strong>Outlook</strong> (memo_q3_2025.txt): - **Mitigant**: Top 10 customers now represent 42% of revenue (down from 48% last year), diversification improving - **Status**: Healthy customer base...<br><br><strong>Outlook</strong> (memo_q3_2025.txt): - **Mitigant**: Top 10 customers now represent 42% of revenue (down from 48% last year), diversification improving - **Status**: Healthy customer base...<br><br><strong>Outlook</strong> (memo_q3_2025.txt): - **Mitigant**: Top 10 customers now represent 42% of revenue (down from 48% last year), diversification improving - **Status**: Healthy customer base...</details>
 
 ---
 
