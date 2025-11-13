@@ -297,9 +297,6 @@ See the [Multi-Agent Non-Deterministic Workflow](#-multi-agent-non-deterministic
 Multiple execution modes are available:
 
 - **`demo_nondet_workflow.py`** - Non-deterministic multi-agent workflow (recommended)
-- **`demo_langgraph_workflow.py`** - Deterministic multi-agent workflow
-- **`demo_agent_workflow.py`** - Simple orchestrator agent
-- **`demo_full_workflow.sh`** - Shell script (legacy, for reference)
 
 ---
 
@@ -554,15 +551,6 @@ source venv/bin/activate
 python demo_nondet_workflow.py
 ```
 
-#### Run Deterministic Workflow (Alternative):
-```bash
-python demo_langgraph_workflow.py
-```
-
-#### Run Original Orchestrator (Simple):
-```bash
-python demo_agent_workflow.py
-```
 
 ### State Management
 

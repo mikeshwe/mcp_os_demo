@@ -8,26 +8,21 @@
 
 | Metric | Value | As of | Source |
 |:--|--:|:--|:--|
-| Revenue (LTM) | **$497.20 M USD** | Sep 30, 2025 | <details><summary>📊 View sources</summary><strong>EDGAR_XBRL</strong>:<br>- us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax | Revenue (Sep 2025) = 124300000 USD<br>- us-gaap:Revenues | Revenue (Sep 2025) = 124300000 USD<br><strong>P&L</strong>:<br>- financials!B6 | Revenue (Sep 2025) = 124.3 USD_mm</details> |
-| YoY Growth (%) | **-100.0%** | Sep 30, 2025 | <details><summary>📊 View sources</summary><strong>EDGAR_XBRL</strong>:<br>- us-gaap:Revenues | Revenue (Sep 2025) = 124300000 USD<br>- us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax | Revenue (Sep 2025) = 124300000 USD<br>- us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax | Revenue (Sep 2024) = 96800000 USD<br>- us-gaap:Revenues | Revenue (Sep 2024) = 96800000 USD<br><strong>P&L</strong>:<br>- financials!B6 | Revenue (Sep 2025) = 124.3 USD_mm<br>- financials!B2 | Revenue (Sep 2024) = 96.8 USD_mm</details> |
-| Gross Margin (%) | **72.1%** | Sep 30, 2025 | <details><summary>📊 View sources</summary><strong>P&L</strong>:<br>- financials!GM_row | GrossMargin (Sep 2025) = 72.1 pct</details> |
-| EBITDA Margin (%) | **18.6%** | Sep 30, 2025 | <details><summary>📊 View sources</summary><strong>P&L</strong>:<br>- financials!E6 | EBITDA_Margin (Sep 2025) = 18.6 pct</details> |
+| Revenue (LTM) | **$442.20 M USD** | Sep 30, 2025 | <details><summary>📊 View sources</summary><strong>EDGAR_XBRL</strong>:<br>- us-gaap:Revenues | Revenue (Sep 2025) = 124300000 USD<br>- us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax | Revenue (Sep 2025) = 124300000 USD<br>- us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax | Revenue (Sep 2024) = 96800000 USD<br>- us-gaap:Revenues | Revenue (Sep 2024) = 96800000 USD</details> |
+| YoY Growth (%) | **28.4%** | Sep 30, 2025 | <details><summary>📊 View sources</summary><strong>EDGAR_XBRL</strong>:<br>- us-gaap:Revenues | Revenue (Sep 2025) = 124300000 USD<br>- us-gaap:Revenues | Revenue (Sep 2024) = 96800000 USD</details> |
+| Gross Margin (%) | **89600000.0%** | Sep 30, 2025 | <details><summary>📊 View sources</summary><strong>EDGAR_XBRL</strong>:<br>- us-gaap:GrossProfit | GrossMargin (Sep 2025) = 89600000 USD</details> |
+| EBITDA Margin (%) | **22900000.0%** | Sep 30, 2025 | <details><summary>📊 View sources</summary><strong>EDGAR_XBRL</strong>:<br>- us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest | EBITDA_Margin (Sep 2025) = 22900000 USD</details> |
 
 ## Investment Thesis
-- Strong revenue growth trajectory with expanding market share
-- Market leadership position maintained with strong competitive moat
-- Operational efficiency improvements driving margin expansion
-
-
-<details><summary>📊 View sources</summary><strong>Outlook</strong> (memo_q3_2025.txt): - **Mitigant**: Top 10 customers now represent 42% of revenue (down from 48% last year), diversification improving - **Status**: Healthy customer base...<br><br><strong>Outlook</strong> (memo_q3_2025.txt): - **Mitigant**: Top 10 customers now represent 42% of revenue (down from 48% last year), diversification improving - **Status**: Healthy customer base...<br><br><strong>Outlook</strong> (memo_q3_2025.txt): - **Mitigant**: Top 10 customers now represent 42% of revenue (down from 48% last year), diversification improving - **Status**: Healthy customer base...</details>
+- Strong revenue growth of 28.41% year-over-year indicates a healthy demand for the company's products/services.
+- Impressive EBITDA margin of 22.9% and gross margin of 89.6% showcase efficient cost management and pricing power.
 
 ## Key Risks & Mitigants
-- Customer concentration risk (mitigated by diversification efforts)
-- Competitive pressure in core markets (stable landscape, strong moat)
-- Macroeconomic uncertainty (strong retention metrics provide stability)
-
-
-<details><summary>📊 View sources</summary><strong>Outlook</strong> (memo_q3_2025.txt): - **Mitigant**: Top 10 customers now represent 42% of revenue (down from 48% last year), diversification improving - **Status**: Healthy customer base...<br><br><strong>Outlook</strong> (memo_q3_2025.txt): - **Mitigant**: Top 10 customers now represent 42% of revenue (down from 48% last year), diversification improving - **Status**: Healthy customer base...<br><br><strong>Outlook</strong> (memo_q3_2025.txt): - **Mitigant**: Top 10 customers now represent 42% of revenue (down from 48% last year), diversification improving - **Status**: Healthy customer base...</details>
+- Risk 1: Dependence on key clients - The company may be overly reliant on a few major clients for a significant portion of its revenue, exposing it to the risk of revenue loss if these clients reduce or cease their business with the company. Mitigant: Diversification of client base by actively seeking new clients and expanding existing relationships to reduce dependency on a few key clients.
+- Risk 2: Economic downturn impact - A general economic downturn could lead to reduced consumer spending, impacting the company's revenue and profitability. Mitigant: Implementing cost-cutting measures and maintaining a strong cash reserve to weather economic downturns, as well as focusing on providing essential products or services that are less sensitive to economic fluctuations.
+- Risk 3: Supply chain disruptions - Disruptions in the supply chain, whether due to natural disasters, geopolitical issues, or other factors, could lead to delays in production or increased costs. Mitigant: Developing alternative sourcing options, maintaining good relationships with suppliers, and implementing supply chain risk management strategies to mitigate potential disruptions.
+- Risk 4: Regulatory changes - Changes in regulations or compliance requirements in the industry could impact the company's operations and increase costs. Mitigant: Staying informed about regulatory changes, proactively adapting to new requirements, and investing in compliance measures to ensure adherence to regulations.
+- Risk 5: Cybersecurity threats - The company may be vulnerable to cybersecurity threats such as data breaches or ransomware attacks, which could lead to financial losses and reputational damage. Mitigant: Implementing robust cybersecurity measures, conducting regular security audits, and providing employee training on cybersecurity best practices to enhance the company's resilience against cyber threats.
 
 ---
 

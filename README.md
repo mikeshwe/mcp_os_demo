@@ -68,11 +68,7 @@ On first run, the embedding model will be downloaded automatically (~79MB). Subs
 
 ### 4. Run Workflow
 
-Choose your execution mode:
-
-#### Option A: Non-Deterministic Multi-Agent Workflow (Recommended) ⭐
-
-Intelligent agents with conditional routing, retry logic, and fallback mechanisms:
+Run the non-deterministic multi-agent workflow:
 
 ```bash
 source venv/bin/activate
@@ -84,32 +80,7 @@ python demo_nondet_workflow.py
 - ✅ Conditional routing based on validation results
 - ✅ Fallback mechanisms for failures
 - ✅ Transparent path logging
-
-#### Option B: Deterministic Multi-Agent Workflow
-
-Fixed-sequence multi-agent workflow with explicit state management:
-
-```bash
-source venv/bin/activate
-python demo_langgraph_workflow.py
-```
-
-#### Option C: Simple Orchestrator Agent
-
-Basic agent workflow without LangGraph:
-
-```bash
-source venv/bin/activate
-python demo_agent_workflow.py
-```
-
-#### Option D: Shell Script (Legacy)
-
-Direct MCP tool calls via shell script:
-
-```bash
-bash demo_full_workflow.sh
-```
+- ✅ Intelligent tool selection (e.g., automatically uses `ingest_edgar_xbrl` for EDGAR files)
 
 ---
 
@@ -293,9 +264,6 @@ Example output: `output/LP_OnePager_Acme_Software_Inc_2025_09_30_nondet.md`
 ├── sql/                       # Database schema and seeds
 ├── mcp-lp-tools-server.ts    # MCP server (TypeScript)
 ├── demo_nondet_workflow.py    # Non-deterministic workflow demo (recommended)
-├── demo_langgraph_workflow.py # Deterministic workflow demo
-├── demo_agent_workflow.py     # Simple orchestrator demo
-├── demo_full_workflow.sh      # Shell script demo (legacy)
 ├── prd.md                     # Product Requirements Document
 └── README.md                  # This file
 ```
