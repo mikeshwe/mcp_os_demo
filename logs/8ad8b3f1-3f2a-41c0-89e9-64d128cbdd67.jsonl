@@ -1,0 +1,3 @@
+{"ts": "2025-11-13T02:39:20.976664Z", "run_id": "8ad8b3f1-3f2a-41c0-89e9-64d128cbdd67", "node": "register_output", "event": "completed"}
+{"ts": "2025-11-13T02:39:20.977327Z", "run_id": "8ad8b3f1-3f2a-41c0-89e9-64d128cbdd67", "node": "finalize", "event": "start"}
+{"ts": "2025-11-13T02:39:20.977383Z", "run_id": "8ad8b3f1-3f2a-41c0-89e9-64d128cbdd67", "node": "finalize", "event": "completed", "success": true, "files_ingested": 3, "kpis_computed": 4, "output_file": "output/LP_OnePager_Acme_Software_Inc_2025_09_30_nondet.md"}

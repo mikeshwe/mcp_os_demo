@@ -20,6 +20,8 @@ class WorkflowState(TypedDict):
     # Workflow state
     mcp_caller: Optional[Any]  # McpToolCaller instance
     session_id: Optional[str]
+    session_label: Optional[str]
+    run_id: Optional[str]
     
     # Step results
     discovered_files: Dict[str, List[str]]
@@ -40,4 +42,3 @@ class WorkflowState(TypedDict):
     # Final result
     success: bool
     summary: Dict[str, Any]
-

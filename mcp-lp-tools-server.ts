@@ -53,7 +53,7 @@ async function generateEmbeddingPython(text: string): Promise<number[]> {
     
     // Properly escape text for shell - use base64 encoding to avoid shell injection
     const textB64 = Buffer.from(text).toString('base64');
-    const { stdout, stderr } = await execAsync(`${pythonCmd} "${scriptPath}" "${textB64}"`);
+    const { stdout, stderr } = await execAsync(`"${pythonCmd}" "${scriptPath}" "${textB64}"`);
     
     if (stderr && stderr.trim()) {
       console.warn("Python script stderr:", stderr);
@@ -85,7 +85,7 @@ async function generateEmbeddingsPython(texts: string[]): Promise<number[][]> {
     
     // Use base64 encoding to avoid shell injection issues
     const textArgs = texts.map(t => Buffer.from(t).toString('base64'));
-    const { stdout, stderr } = await execAsync(`${pythonCmd} "${scriptPath}" ${textArgs.map(t => `"${t}"`).join(' ')}`);
+    const { stdout, stderr } = await execAsync(`"${pythonCmd}" "${scriptPath}" ${textArgs.map(t => `"${t}"`).join(' ')}`);
     
     if (stderr && stderr.trim() && !stderr.includes('onnx')) {
       console.warn("Python script stderr:", stderr);

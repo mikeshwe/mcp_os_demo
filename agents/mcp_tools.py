@@ -8,19 +8,47 @@ import json
 from typing import Any, Optional
 from langchain_core.tools import BaseTool
 from pydantic import BaseModel, Field
+from .tracing import log_trace
 
 
 class McpToolCaller:
     """Handles MCP protocol communication over HTTP"""
     
-    def __init__(self, server_url: str, session_id: str):
+    ALLOWED_TOOLS = {
+        "ingest_excel",
+        "ingest_edgar_xbrl",
+        "ingest_memo",
+        "compute_kpis",
+        "get_golden_facts",
+        "render_onepager_markdown",
+        "register_output",
+    }
+    
+    def __init__(self, server_url: str, session_id: str, run_id: Optional[str] = None):
         self.server_url = server_url
         self.session_id = session_id
+        self.run_id = run_id
         self.request_id = 1
     
     async def call_tool(self, tool_name: str, arguments: dict) -> dict:
         """Call an MCP tool and return the result"""
         self.request_id += 1
+        
+        if tool_name not in self.ALLOWED_TOOLS:
+            msg = f"MCP tool '{tool_name}' is not in the allowlist"
+            log_trace(self.run_id, {
+                "tool": tool_name,
+                "event": "error",
+                "error": msg,
+            })
+            print(f"⚠ {msg}")
+            raise ValueError(msg)
+        
+        log_trace(self.run_id, {
+            "tool": tool_name,
+            "event": "call",
+            "args": sorted(arguments.keys()),
+        })
         
         payload = {
             "jsonrpc": "2.0",
@@ -32,35 +60,48 @@ class McpToolCaller:
             }
         }
         
-        async with httpx.AsyncClient(timeout=60.0) as client:
-            response = await client.post(
-                self.server_url,
-                headers={
-                    "Content-Type": "application/json",
-                    "Accept": "application/json, text/event-stream",
-                    "MCP-Session-Id": self.session_id
-                },
-                json=payload
-            )
-            response.raise_for_status()
-            result = response.json()
-            
-            # Extract content from MCP response
-            if "result" in result:
-                result_obj = result["result"]
-                # Check if result has content array (MCP format)
-                if "content" in result_obj:
-                    content = result_obj.get("content", [])
-                    if content and len(content) > 0:
-                        text = content[0].get("text", "")
-                        if text:
-                            try:
-                                return json.loads(text)
-                            except:
-                                return {"raw": text}
-                # Otherwise return the result object directly
-                return result_obj
-            return result
+        try:
+            async with httpx.AsyncClient(timeout=60.0) as client:
+                response = await client.post(
+                    self.server_url,
+                    headers={
+                        "Content-Type": "application/json",
+                        "Accept": "application/json, text/event-stream",
+                        "MCP-Session-Id": self.session_id
+                    },
+                    json=payload
+                )
+                response.raise_for_status()
+                result = response.json()
+        except Exception as e:
+            log_trace(self.run_id, {
+                "tool": tool_name,
+                "event": "error",
+                "error": str(e),
+            })
+            raise
+        
+        log_trace(self.run_id, {
+            "tool": tool_name,
+            "event": "success",
+        })
+        
+        # Extract content from MCP response
+        if "result" in result:
+            result_obj = result["result"]
+            # Check if result has content array (MCP format)
+            if "content" in result_obj:
+                content = result_obj.get("content", [])
+                if content and len(content) > 0:
+                    text = content[0].get("text", "")
+                    if text:
+                        try:
+                            return json.loads(text)
+                        except:
+                            return {"raw": text}
+            # Otherwise return the result object directly
+            return result_obj
+        return result
     
     async def initialize_session(self, client_name: str = "langchain-agent") -> str:
         """Initialize MCP session and return session ID"""
@@ -149,4 +190,3 @@ def create_mcp_tools(mcp_caller: McpToolCaller) -> list[McpTool]:
         tools.append(tool)
     
     return tools
-
