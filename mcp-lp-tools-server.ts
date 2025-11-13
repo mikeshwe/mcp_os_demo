@@ -17,7 +17,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { z } from "zod";
-import { Client } from "pg";
+import { Pool } from "pg";
 import dayjs from "dayjs";
 import * as fs from "fs";
 import * as path from "path";
@@ -36,7 +36,13 @@ dotenv.config();
 
 // ---------- DB helpers ----------
 const DB_URL = process.env.DB_URL ?? "postgres://mcp:mcp@localhost:5433/mcp_ctx";
-const pgClient = new Client({ connectionString: DB_URL });
+// Use Pool instead of Client for better concurrency and connection management
+const pgPool = new Pool({ 
+  connectionString: DB_URL,
+  max: 20, // Maximum number of clients in the pool
+  idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
+  connectionTimeoutMillis: 2000, // Return an error after 2 seconds if connection could not be established
+});
 
 // ---------- Embedding helpers ----------
 // Uses ChromaDB via Python script for local embeddings (no API key needed)
@@ -114,12 +120,15 @@ async function generateEmbeddings(texts: string[]): Promise<number[][]> {
   return await generateEmbeddingsPython(texts);
 }
 
+// Pool handles connection management automatically, no need for manual initDb
 async function initDb() {
-  // @ts-ignore
-  if ((pgClient as any)._connected) return;
-  await pgClient.connect();
-  // @ts-ignore
-  (pgClient as any)._connected = true;
+  // Test connection with a simple query
+  try {
+    await pgPool.query('SELECT 1');
+  } catch (error: any) {
+    console.error('Database connection error:', error.message);
+    throw error;
+  }
 }
 
 function sha256File(filePath: string): string {
@@ -140,7 +149,7 @@ async function registerDocument(
   const hash = sha256File(filePath);
   const sql =
     "INSERT INTO documents(deal_id,name,kind,version,sha256) VALUES ($1,$2,$3,$4,$5) RETURNING document_id";
-  const { rows } = await pgClient.query(sql, [deal_id, name, kind, version, hash]);
+  const { rows } = await pgPool.query(sql, [deal_id, name, kind, version, hash]);
   return rows[0].document_id as string;
 }
 
@@ -154,7 +163,7 @@ async function registerTable(
   await initDb();
   const sql =
     "INSERT INTO tables_norm(document_id,name,sheet,note) VALUES ($1,$2,$3,$4) RETURNING table_id";
-  const { rows } = await pgClient.query(sql, [document_id, name, sheet ?? null, note ?? null]);
+  const { rows } = await pgPool.query(sql, [document_id, name, sheet ?? null, note ?? null]);
   return rows[0].table_id as string;
 }
 
@@ -205,7 +214,7 @@ async function insertCells(
     );
   }
   const sql = `INSERT INTO table_cells(${cols.join(",")}) VALUES ${valuesSql.join(",")}`;
-  await pgClient.query(sql, params);
+  await pgPool.query(sql, params);
 }
 
 // Insert chunks for memo/text documents
@@ -236,7 +245,7 @@ async function insertChunks(
     );
   }
   const sql = `INSERT INTO chunks(document_id,section,text,page_from,page_to,access_tag) VALUES ${valuesSql.join(",")} RETURNING chunk_id`;
-  const { rows } = await pgClient.query(sql, params);
+  const { rows } = await pgPool.query(sql, params);
   const chunkIds = rows.map(r => r.chunk_id);
 
   // Generate embeddings using local model (no API key needed)
@@ -254,7 +263,7 @@ async function insertChunks(
     }
     if (embeddingValuesSql.length > 0) {
       const embeddingSql = `INSERT INTO embeddings(chunk_id, model, vector) VALUES ${embeddingValuesSql.join(",")}`;
-      await pgClient.query(embeddingSql, embeddingParams);
+      await pgPool.query(embeddingSql, embeddingParams);
     }
   } catch (error: any) {
     // Log error but don't fail chunk insertion
@@ -597,12 +606,13 @@ server.tool("ingest_edgar_xbrl", "Ingest SEC EDGAR XBRL CSV export and map XBRL 
   }
 
   // XBRL mapping: map common XBRL concepts to canonical labels
+  // Note: Labels must match what compute_kpis expects (GrossMargin, EBITDA_Margin)
   const xbrlMapping: Record<string, string> = {
     "us-gaap:Revenues": "Revenue",
     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax": "Revenue",
-    "us-gaap:GrossProfit": "GrossProfit",
+    "us-gaap:GrossProfit": "GrossMargin",  // Changed from "GrossProfit" to match compute_kpis
     "us-gaap:OperatingIncomeLoss": "OperatingIncome",
-    "us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest": "EBITDA",
+    "us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest": "EBITDA_Margin",  // Changed from "EBITDA" to match compute_kpis
     "us-gaap:Assets": "Assets",
     "us-gaap:Liabilities": "Liabilities",
   };
@@ -714,9 +724,9 @@ server.tool("ingest_snowflake", "Ingest Snowflake data warehouse CSV export into
 // ---------- KPI compute helpers ----------
 async function upsertKpi(name: string, description: string): Promise<string> {
   await initDb();
-  let r = await pgClient.query("SELECT kpi_id FROM kpis WHERE name=$1", [name]);
+  let r = await pgPool.query("SELECT kpi_id FROM kpis WHERE name=$1", [name]);
   if (r.rows.length) return r.rows[0].kpi_id as string;
-  r = await pgClient.query(
+  r = await pgPool.query(
     "INSERT INTO kpis(name, description) VALUES ($1,$2) RETURNING kpi_id",
     [name, description]
   );
@@ -732,7 +742,7 @@ async function fetchCellsByLabel(deal_id: string, label: string) {
     JOIN documents d ON t.document_id = d.document_id
     WHERE d.deal_id = $1 AND c.label = $2 AND c.period IS NOT NULL
     ORDER BY c.period DESC`;
-  const { rows } = await pgClient.query(sql, [deal_id, label]);
+  const { rows } = await pgPool.query(sql, [deal_id, label]);
   return rows as Array<{ cell_id: string; period: string; value: number; unit: string | null }>;
 }
 
@@ -758,7 +768,27 @@ server.tool("compute_kpis", "Compute core KPIs (Revenue_LTM, YoY_Growth, Gross_M
   const rev = await fetchCellsByLabel(deal_id, revenue_label);
   const gm = await fetchCellsByLabel(deal_id, gross_margin_label);
   const em = await fetchCellsByLabel(deal_id, ebitda_margin_label);
-  if (rev.length === 0) throw new Error(`No rows found for label '${revenue_label}'.`);
+  
+  if (rev.length === 0) {
+    // Get available labels to help debug
+    const { rows: labelRows } = await pgPool.query(`
+      SELECT DISTINCT c.label, COUNT(*) as count
+      FROM table_cells c
+      JOIN tables_norm t ON c.table_id = t.table_id
+      JOIN documents d ON t.document_id = d.document_id
+      WHERE d.deal_id = $1 AND c.period IS NOT NULL
+      GROUP BY c.label
+      ORDER BY count DESC
+      LIMIT 10
+    `, [deal_id]);
+    
+    const availableLabels = labelRows.map(r => `'${r.label}' (${r.count} cells)`).join(', ');
+    throw new Error(
+      `No rows found for label '${revenue_label}'. ` +
+      `Available labels with periods: ${availableLabels || 'none'}. ` +
+      `Make sure data is ingested using ingest_edgar_xbrl (not ingest_csv) for proper label normalization.`
+    );
+  }
 
   const latestPeriod = rev[0].period;
   const useRevCells = rev.slice(0, periods_to_sum);
@@ -790,18 +820,18 @@ server.tool("compute_kpis", "Compute core KPIs (Revenue_LTM, YoY_Growth, Gross_M
     sources: string[]
   ) {
     if (value == null || Number.isNaN(value)) return null;
-    const { rows } = await pgClient.query(
+    const { rows } = await pgPool.query(
       "INSERT INTO kpi_values(kpi_id, deal_id, as_of, value, unit, formula) VALUES ($1,$2,$3,$4,$5,$6) RETURNING kpi_value_id",
       [kpi_id, deal_id, latestPeriod, value, unit, formula]
     );
     const id = rows[0].kpi_value_id;
     for (const cid of sources)
-      await pgClient.query(
+      await pgPool.query(
         "INSERT INTO kpi_value_sources(kpi_value_id, source_type, source_id) VALUES ($1,'cell',$2)",
         [id, cid]
       );
     if (approve)
-      await pgClient.query(
+      await pgPool.query(
         "INSERT INTO golden_facts(kpi_id, deal_id, kpi_value_id, ttl_until, status) VALUES ($1,$2,$3, now() + ($4 || ' days')::interval, 'approved')",
         [kpi_id, deal_id, id, String(ttl_days)]
       );
@@ -870,7 +900,7 @@ server.tool("get_golden_facts", "Fetch approved GoldenFacts (KPI snapshot) for a
     params.push(kpis);
   }
   sql += " ORDER BY k.name";
-  const { rows } = await pgClient.query(sql, params);
+  const { rows } = await pgPool.query(sql, params);
   return { content: [{ type: 'text', text: JSON.stringify({ snapshot: rows }) }] };
 });
 
@@ -895,7 +925,7 @@ server.tool("get_kpi_lineage", "Get lineage (underlying cells) for KPI values in
     params.push(kpis);
   }
   sql += ` ORDER BY k.name, c.period DESC`;
-  const { rows } = await pgClient.query(sql, params);
+  const { rows } = await pgPool.query(sql, params);
   // Group by KPI for nicer shape
   const byKpi: Record<string, any[]> = {};
   for (const r of rows) {
@@ -931,7 +961,7 @@ async function findRelevantChunksVector(
   await initDb();
   
   // Check if embeddings exist for this deal
-  const { rows: embeddingCheck } = await pgClient.query(`
+  const { rows: embeddingCheck } = await pgPool.query(`
     SELECT COUNT(*) as count
     FROM embeddings e
     JOIN chunks c ON c.chunk_id = e.chunk_id
@@ -968,7 +998,7 @@ async function findRelevantChunksVector(
     `;
     
     const embeddingArray = `[${queryEmbedding.join(',')}]`;
-    const { rows } = await pgClient.query(sql, [
+    const { rows } = await pgPool.query(sql, [
       embeddingArray,
       deal_id,
       'sentence-transformers/all-MiniLM-L6-v2',
@@ -1066,7 +1096,7 @@ server.tool("render_onepager_markdown", "Render a Markdown LP one‑pager from s
       JOIN tables_norm t ON t.table_id = c.table_id
       WHERE kv.deal_id = $1
       ORDER BY k.name, c.period DESC`;
-    const { rows } = await pgClient.query(sql, params);
+    const { rows } = await pgPool.query(sql, params);
     lineageData = {};
     for (const r of rows) {
       (lineageData[r.kpi] ??= []).push({
@@ -1192,7 +1222,7 @@ server.tool("render_onepager_markdown", "Render a Markdown LP one‑pager from s
   let memoChunks: any[] = [];
   if (deal_id) {
     try {
-      const { rows } = await pgClient.query(`
+      const { rows } = await pgPool.query(`
         SELECT c.section, c.text, d.name as document_name
         FROM chunks c
         JOIN documents d ON d.document_id = c.document_id
@@ -1307,6 +1337,93 @@ server.tool("render_onepager_markdown", "Render a Markdown LP one‑pager from s
   return { content: [{ type: 'text', text: JSON.stringify({ markdown: md, brand: theme?.brand ?? null }) }] };
 });
 
+// ---------- Tool: clear_deal_data ----------
+server.tool("clear_deal_data", "Clear all ingested data for a deal (documents, table_cells, chunks, KPIs, etc.) to allow re-ingestion.", {
+  deal_id: z.string().uuid(),
+  confirm: z.boolean().default(false),
+}, async ({ deal_id, confirm }) => {
+  try {
+    await initDb();
+    
+    if (!confirm) {
+      throw new Error("Must set confirm=true to clear deal data. This action cannot be undone.");
+    }
+    
+    const results: Record<string, number> = {};
+    
+    // Delete in correct order due to foreign key constraints
+    let r = await pgPool.query('DELETE FROM golden_facts WHERE deal_id = $1', [deal_id]);
+    results.golden_facts = r.rowCount || 0;
+  
+  r = await pgPool.query(`
+    DELETE FROM kpi_value_sources 
+    WHERE kpi_value_id IN (SELECT kpi_value_id FROM kpi_values WHERE deal_id = $1)
+  `, [deal_id]);
+  results.kpi_value_sources = r.rowCount || 0;
+  
+  r = await pgPool.query('DELETE FROM kpi_values WHERE deal_id = $1', [deal_id]);
+  results.kpi_values = r.rowCount || 0;
+  
+  r = await pgPool.query(`
+    DELETE FROM table_cells 
+    WHERE table_id IN (
+      SELECT table_id FROM tables_norm 
+      WHERE document_id IN (SELECT document_id FROM documents WHERE deal_id = $1)
+    )
+  `, [deal_id]);
+  results.table_cells = r.rowCount || 0;
+  
+  r = await pgPool.query(`
+    DELETE FROM embeddings 
+    WHERE chunk_id IN (
+      SELECT chunk_id FROM chunks 
+      WHERE document_id IN (SELECT document_id FROM documents WHERE deal_id = $1)
+    )
+  `, [deal_id]);
+  results.embeddings = r.rowCount || 0;
+  
+  r = await pgPool.query(`
+    DELETE FROM chunks 
+    WHERE document_id IN (SELECT document_id FROM documents WHERE deal_id = $1)
+  `, [deal_id]);
+  results.chunks = r.rowCount || 0;
+  
+  r = await pgPool.query(`
+    DELETE FROM tables_norm 
+    WHERE document_id IN (SELECT document_id FROM documents WHERE deal_id = $1)
+  `, [deal_id]);
+  results.tables_norm = r.rowCount || 0;
+  
+    r = await pgPool.query('DELETE FROM documents WHERE deal_id = $1', [deal_id]);
+    results.documents = r.rowCount || 0;
+    
+    return {
+      content: [{
+        type: 'text',
+        text: JSON.stringify({
+          deal_id,
+          cleared: true,
+          deleted_counts: results,
+          message: `Successfully cleared all data for deal ${deal_id}`
+        })
+      }]
+    };
+  } catch (error: any) {
+    let errorMessage = 'Unknown error';
+    if (error?.message) {
+      errorMessage = error.message;
+    } else if (error?.errors && Array.isArray(error.errors)) {
+      // Handle AggregateError
+      errorMessage = error.errors.map((e: any) => e?.message || String(e)).join('; ');
+    } else {
+      errorMessage = String(error);
+    }
+    console.error(`Error clearing deal data: ${errorMessage}`);
+    console.error('Full error:', error);
+    throw new Error(`Failed to clear deal data: ${errorMessage}`);
+  }
+});
+
 // ---------- Tool: register_output ----------
 server.tool("register_output", "Create a Runs/Outputs row to track an artifact and its lineage.", {
   deal_id: z.string().uuid(),
@@ -1317,13 +1434,13 @@ server.tool("register_output", "Create a Runs/Outputs row to track an artifact a
   summary: z.string().optional()
 }, async ({ deal_id, recipe, model, kind, uri, summary }) => {
   await initDb();
-  const { rows: runRows } = await pgClient.query(
+  const { rows: runRows } = await pgPool.query(
     `INSERT INTO runs (deal_id, recipe, model) VALUES ($1,$2,$3) RETURNING run_id, started_at`,
     [deal_id, recipe, model ?? null]
   );
   const run = runRows[0];
 
-  const { rows: outRows } = await pgClient.query(
+  const { rows: outRows } = await pgPool.query(
     `INSERT INTO outputs (run_id, kind, uri, summary) VALUES ($1,$2,$3,$4) RETURNING output_id`,
     [run.run_id, kind, uri ?? null, summary ?? null]
   );
@@ -1380,8 +1497,22 @@ app.post('/mcp', async (req, res) => {
 const PORT = Number(process.env.PORT ?? 3333);
 app.listen(PORT, () => {
   console.log(`[mcp-lp-tools] listening on :${PORT}`);
-  console.log(`[mcp-lp-tools] Tools registered: 11 total`);
+  console.log(`[mcp-lp-tools] Tools registered: 12 total`);
   console.log(`  - Ingestion: ingest_excel, ingest_csv, ingest_memo, ingest_billing, ingest_edgar_xbrl, ingest_snowflake`);
   console.log(`  - Compute: compute_kpis`);
   console.log(`  - Rendering: get_golden_facts, get_kpi_lineage, render_onepager_markdown, register_output`);
+  console.log(`  - Utility: clear_deal_data`);
+});
+
+// Graceful shutdown: close pool on process termination
+process.on('SIGINT', async () => {
+  console.log('\nShutting down gracefully...');
+  await pgPool.end();
+  process.exit(0);
+});
+
+process.on('SIGTERM', async () => {
+  console.log('\nShutting down gracefully...');
+  await pgPool.end();
+  process.exit(0);
 });

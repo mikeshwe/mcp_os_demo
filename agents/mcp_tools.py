@@ -16,12 +16,15 @@ class McpToolCaller:
     
     ALLOWED_TOOLS = {
         "ingest_excel",
+        "ingest_csv",
         "ingest_edgar_xbrl",
         "ingest_memo",
         "compute_kpis",
         "get_golden_facts",
+        "get_kpi_lineage",
         "render_onepager_markdown",
         "register_output",
+        "clear_deal_data",
     }
     
     def __init__(self, server_url: str, session_id: str, run_id: Optional[str] = None):
@@ -61,7 +64,7 @@ class McpToolCaller:
         }
         
         try:
-            async with httpx.AsyncClient(timeout=60.0) as client:
+            async with httpx.AsyncClient(timeout=120.0) as client:
                 response = await client.post(
                     self.server_url,
                     headers={
@@ -80,6 +83,44 @@ class McpToolCaller:
                 "error": str(e),
             })
             raise
+        
+        # Check for MCP error response
+        if "error" in result:
+            error_msg = result["error"].get("message", str(result["error"]))
+            log_trace(self.run_id, {
+                "tool": tool_name,
+                "event": "error",
+                "error": error_msg,
+            })
+            raise ValueError(f"MCP tool error: {error_msg}")
+        
+        # Check for isError flag (some MCP implementations use this)
+        if result.get("isError"):
+            error_msg = "Unknown error from MCP server"
+            # Try to extract error from various possible locations
+            if "error" in result:
+                error_obj = result["error"]
+                if isinstance(error_obj, dict):
+                    error_msg = error_obj.get("message", str(error_obj))
+                else:
+                    error_msg = str(error_obj)
+            elif "result" in result:
+                result_obj = result["result"]
+                if "content" in result_obj:
+                    content = result_obj.get("content", [])
+                    if content and len(content) > 0:
+                        text = content[0].get("text", "")
+                        if text:
+                            error_msg = text
+            # If still unknown, include full result for debugging
+            if error_msg == "Unknown error from MCP server":
+                error_msg = f"Unknown error from MCP server: {result}"
+            log_trace(self.run_id, {
+                "tool": tool_name,
+                "event": "error",
+                "error": error_msg,
+            })
+            raise ValueError(f"MCP tool error: {error_msg}")
         
         log_trace(self.run_id, {
             "tool": tool_name,

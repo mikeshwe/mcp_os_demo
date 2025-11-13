@@ -51,41 +51,78 @@ class IngestionAgent:
         
         return files
     
+    def _determine_tool_for_file(self, file_path: str) -> str:
+        """Determine the correct ingestion tool based on file path and name"""
+        file_lower = file_path.lower()
+        filename = os.path.basename(file_path)
+        
+        # Check for EDGAR/XBRL files first (must use ingest_edgar_xbrl)
+        if filename.endswith('.csv') and ("edgar" in file_lower or "xbrl" in file_lower):
+            return "ingest_edgar_xbrl"
+        
+        # Check for memo files
+        if filename.endswith(('.txt', '.md')):
+            if "memo" in file_lower and not filename.endswith('.md'):
+                return "ingest_memo"
+            elif filename.endswith('.txt'):
+                return "ingest_memo"
+        
+        # Check for Excel files
+        if filename.endswith('.xlsx'):
+            return "ingest_excel"
+        
+        # Default CSV handler
+        if filename.endswith('.csv'):
+            return "ingest_csv"
+        
+        # Default fallback
+        return "ingest_csv"
+    
     async def determine_ingestion_strategy(self, files: Dict[str, List[str]]) -> List[Dict[str, Any]]:
         """Use LLM to determine optimal ingestion order and strategy"""
         if not self.use_llm or not self.llm:
-            # Fallback: simple strategy
+            # Fallback: simple strategy with explicit tool selection
             strategy = []
             for memo_file in files.get("memo", []):
-                if "memo" in memo_file.lower() and not memo_file.endswith('.md'):
-                    strategy.append({"file": memo_file, "tool": "ingest_memo", "priority": 1})
+                tool = self._determine_tool_for_file(memo_file)
+                strategy.append({"file": memo_file, "tool": tool, "priority": 1})
             
             for excel_file in files.get("excel", []):
-                strategy.append({"file": excel_file, "tool": "ingest_excel", "priority": 2})
+                tool = self._determine_tool_for_file(excel_file)
+                strategy.append({"file": excel_file, "tool": tool, "priority": 2})
             
             for csv_file in files.get("csv", []):
-                if "edgar" in csv_file.lower() or "xbrl" in csv_file.lower():
-                    strategy.append({"file": csv_file, "tool": "ingest_edgar_xbrl", "priority": 3})
-                else:
-                    strategy.append({"file": csv_file, "tool": "ingest_csv", "priority": 4})
+                tool = self._determine_tool_for_file(csv_file)
+                strategy.append({"file": csv_file, "tool": tool, "priority": 3})
             
             return sorted(strategy, key=lambda x: x["priority"])
         
-        # Use LLM to determine strategy
+        # Use LLM to determine strategy, but validate tool selection
         files_list = []
+        file_path_map = {}  # Map basename to full path
         for file_type, file_list in files.items():
             for file_path in file_list:
-                files_list.append(f"{file_type}: {os.path.basename(file_path)}")
+                basename = os.path.basename(file_path)
+                files_list.append(f"{file_type}: {basename}")
+                file_path_map[basename] = file_path
         
         prompt = ChatPromptTemplate.from_messages([
             ("system", """You are a data ingestion specialist. Analyze available files and determine the optimal ingestion order.
-            Return a JSON array with file paths, tool names, and priority (1=highest)."""),
+            
+IMPORTANT RULES:
+- Files with "edgar" or "xbrl" in the name MUST use "ingest_edgar_xbrl" tool
+- Memo/text files (.txt, .md) use "ingest_memo"
+- Excel files (.xlsx) use "ingest_excel"
+- Generic CSV files use "ingest_csv"
+- Return the FULL file path (not just basename) in the "file" field
+
+Return a JSON array with file paths, tool names, and priority (1=highest)."""),
             ("human", """Files available:
 {files}
 
 Return JSON array:
 [
-  {{"file": "path/to/file", "tool": "ingest_memo|ingest_excel|ingest_csv|ingest_edgar_xbrl", "priority": 1-4}}
+  {{"file": "full/path/to/file", "tool": "ingest_memo|ingest_excel|ingest_csv|ingest_edgar_xbrl", "priority": 1-4}}
 ]""")
         ])
         
@@ -94,10 +131,38 @@ Return JSON array:
         
         try:
             result = await chain.ainvoke({"files": "\n".join(files_list)})
-            return sorted(result, key=lambda x: x.get("priority", 5))
+            
+            # Validate and correct tool selection
+            validated_result = []
+            for item in result:
+                file_path = item.get("file", "")
+                tool_name = item.get("tool", "")
+                
+                # If LLM returned basename, map to full path
+                if file_path in file_path_map:
+                    file_path = file_path_map[file_path]
+                
+                # Validate tool selection matches file type
+                correct_tool = self._determine_tool_for_file(file_path)
+                if tool_name != correct_tool:
+                    print(f"⚠ Correcting tool selection for {os.path.basename(file_path)}: {tool_name} → {correct_tool}")
+                    tool_name = correct_tool
+                
+                validated_result.append({
+                    "file": file_path,
+                    "tool": tool_name,
+                    "priority": item.get("priority", 5)
+                })
+            
+            return sorted(validated_result, key=lambda x: x.get("priority", 5))
         except Exception as e:
             print(f"⚠ LLM strategy failed, using fallback: {e}")
-            return await self.determine_ingestion_strategy(files)  # Fallback
+            # Recursively call with LLM disabled to use fallback
+            original_use_llm = self.use_llm
+            self.use_llm = False
+            result = await self.determine_ingestion_strategy(files)
+            self.use_llm = original_use_llm
+            return result
     
     async def ingest_all(self, deal_id: str, data_dir: str) -> Dict[str, Any]:
         """Intelligently ingest all available data sources"""
