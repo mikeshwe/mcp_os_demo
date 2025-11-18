@@ -1,0 +1,24 @@
+{"ts": "2025-11-18T02:29:14.423849Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "node": "initialize", "event": "start", "session_id": "28b28dba-07d8-4b09-938d-f2bcbcd94d6b"}
+{"ts": "2025-11-18T02:29:14.424374Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "node": "ingestion", "event": "start"}
+{"ts": "2025-11-18T02:29:14.424512Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "tool": "ingest_memo", "event": "call", "args": ["access_tag", "chunk_size", "deal_id", "file_path"]}
+{"ts": "2025-11-18T02:29:14.432075Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "tool": "ingest_memo", "event": "error", "error": "keyValidator._parse is not a function"}
+{"ts": "2025-11-18T02:29:14.432227Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "tool": "ingest_excel", "event": "call", "args": ["deal_id", "file_path", "sheet_hints", "version"]}
+{"ts": "2025-11-18T02:29:14.438465Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "tool": "ingest_excel", "event": "error", "error": "keyValidator._parse is not a function"}
+{"ts": "2025-11-18T02:29:14.438543Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "tool": "ingest_edgar_xbrl", "event": "call", "args": ["deal_id", "file_path", "version"]}
+{"ts": "2025-11-18T02:29:14.445006Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "tool": "ingest_edgar_xbrl", "event": "error", "error": "keyValidator._parse is not a function"}
+{"ts": "2025-11-18T02:29:14.445129Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "node": "ingestion", "event": "completed", "files_ingested": 0, "warnings": ["No files were successfully ingested", "3 files failed to ingest"]}
+{"ts": "2025-11-18T02:29:14.445830Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "tool": "ingest_memo", "event": "call", "args": ["access_tag", "chunk_size", "deal_id", "file_path"]}
+{"ts": "2025-11-18T02:29:14.451752Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "tool": "ingest_memo", "event": "error", "error": "keyValidator._parse is not a function"}
+{"ts": "2025-11-18T02:29:14.451875Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "tool": "ingest_excel", "event": "call", "args": ["deal_id", "file_path", "sheet_hints", "version"]}
+{"ts": "2025-11-18T02:29:14.457750Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "tool": "ingest_excel", "event": "error", "error": "keyValidator._parse is not a function"}
+{"ts": "2025-11-18T02:29:14.457844Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "tool": "ingest_edgar_xbrl", "event": "call", "args": ["deal_id", "file_path", "version"]}
+{"ts": "2025-11-18T02:29:14.464249Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "tool": "ingest_edgar_xbrl", "event": "error", "error": "keyValidator._parse is not a function"}
+{"ts": "2025-11-18T02:29:14.465005Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "tool": "ingest_memo", "event": "call", "args": ["access_tag", "chunk_size", "deal_id", "file_path"]}
+{"ts": "2025-11-18T02:29:14.471001Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "tool": "ingest_memo", "event": "error", "error": "keyValidator._parse is not a function"}
+{"ts": "2025-11-18T02:29:14.471096Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "tool": "ingest_excel", "event": "call", "args": ["deal_id", "file_path", "sheet_hints", "version"]}
+{"ts": "2025-11-18T02:29:14.477114Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "tool": "ingest_excel", "event": "error", "error": "keyValidator._parse is not a function"}
+{"ts": "2025-11-18T02:29:14.477219Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "tool": "ingest_edgar_xbrl", "event": "call", "args": ["deal_id", "file_path", "version"]}
+{"ts": "2025-11-18T02:29:14.482875Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "tool": "ingest_edgar_xbrl", "event": "error", "error": "keyValidator._parse is not a function"}
+{"ts": "2025-11-18T02:29:14.483490Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "node": "kpi_computation", "event": "start"}
+{"ts": "2025-11-18T02:29:14.483560Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "tool": "compute_kpis", "event": "call", "args": ["approve", "deal_id", "periods_to_sum", "ttl_days"]}
+{"ts": "2025-11-18T02:29:14.489241Z", "run_id": "139a1d7b-c5cc-4ea9-bc7c-482d8ffae1af", "tool": "compute_kpis", "event": "error", "error": "keyValidator._parse is not a function"}

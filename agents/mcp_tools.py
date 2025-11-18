@@ -130,7 +130,10 @@ class McpToolCaller:
         # Extract content from MCP response
         if "result" in result:
             result_obj = result["result"]
-            # Check if result has content array (MCP format)
+            # Prefer structuredContent when outputSchema is defined
+            if "structuredContent" in result_obj:
+                return result_obj["structuredContent"]
+            # Check if result has content array (legacy MCP format)
             if "content" in result_obj:
                 content = result_obj.get("content", [])
                 if content and len(content) > 0:

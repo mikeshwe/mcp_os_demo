@@ -1,0 +1,29 @@
+{"ts": "2025-11-18T02:17:16.351299Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "node": "initialize", "event": "start", "session_id": "710294ce-8f76-474d-87e6-e50ed0731d89"}
+{"ts": "2025-11-18T02:17:16.351917Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "node": "ingestion", "event": "start"}
+{"ts": "2025-11-18T02:17:16.352067Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "tool": "ingest_memo", "event": "call", "args": ["access_tag", "chunk_size", "deal_id", "file_path"]}
+{"ts": "2025-11-18T02:17:17.177165Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "tool": "ingest_memo", "event": "success"}
+{"ts": "2025-11-18T02:17:17.177380Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "tool": "ingest_excel", "event": "call", "args": ["deal_id", "file_path", "sheet_hints", "version"]}
+{"ts": "2025-11-18T02:17:17.204806Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "tool": "ingest_excel", "event": "success"}
+{"ts": "2025-11-18T02:17:17.204948Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "tool": "ingest_edgar_xbrl", "event": "call", "args": ["deal_id", "file_path", "version"]}
+{"ts": "2025-11-18T02:17:17.218558Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "tool": "ingest_edgar_xbrl", "event": "success"}
+{"ts": "2025-11-18T02:17:17.218690Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "node": "ingestion", "event": "completed", "files_ingested": 3, "warnings": []}
+{"ts": "2025-11-18T02:17:17.219361Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "node": "kpi_computation", "event": "start"}
+{"ts": "2025-11-18T02:17:17.219452Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "tool": "compute_kpis", "event": "call", "args": ["approve", "deal_id", "periods_to_sum", "ttl_days"]}
+{"ts": "2025-11-18T02:17:17.251666Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "tool": "compute_kpis", "event": "success"}
+{"ts": "2025-11-18T02:17:17.251799Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "node": "kpi_computation", "event": "completed", "kpis_computed": 4, "warnings": ["Missing KPIs: Revenue_LTM, YoY_Growth, Gross_Margin, EBITDA_Margin"]}
+{"ts": "2025-11-18T02:17:17.252430Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "node": "get_snapshot", "event": "start"}
+{"ts": "2025-11-18T02:17:17.252506Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "tool": "get_golden_facts", "event": "call", "args": ["deal_id"]}
+{"ts": "2025-11-18T02:17:17.260726Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "tool": "get_golden_facts", "event": "success"}
+{"ts": "2025-11-18T02:17:17.261395Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "node": "get_snapshot", "event": "completed", "snapshot_size": 104}
+{"ts": "2025-11-18T02:17:17.261720Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "node": "content_generation", "event": "start"}
+{"ts": "2025-11-18T02:17:17.261908Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "node": "content_generation", "event": "completed", "bullets_generated": 6, "warnings": []}
+{"ts": "2025-11-18T02:17:17.262420Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "node": "render", "event": "start"}
+{"ts": "2025-11-18T02:17:17.262466Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "tool": "render_onepager_markdown", "event": "call", "args": ["bullets", "company", "deal_id", "period_end", "snapshot"]}
+{"ts": "2025-11-18T02:17:18.208378Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "tool": "render_onepager_markdown", "event": "success"}
+{"ts": "2025-11-18T02:17:18.208591Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "node": "render", "event": "completed", "markdown_chars": 3341}
+{"ts": "2025-11-18T02:17:18.209093Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "node": "save_output", "event": "start"}
+{"ts": "2025-11-18T02:17:18.209446Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "node": "save_output", "event": "completed", "output_file": "output/LP_OnePager_Acme_Software_Inc_2025_09_30_nondet.md"}
+{"ts": "2025-11-18T02:17:18.209712Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "node": "register_output", "event": "start"}
+{"ts": "2025-11-18T02:17:18.209806Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "tool": "register_output", "event": "call", "args": ["deal_id", "kind", "recipe", "uri"]}
+{"ts": "2025-11-18T02:17:18.221712Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "tool": "register_output", "event": "success"}
+{"ts": "2025-11-18T02:17:18.221862Z", "run_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "node": "register_output", "event": "completed", "trace_id": "2a1ffb31-5fec-4b41-975d-b0ade0fc9a46", "db_run_id": "fd60b877-7572-446b-8501-10d86519d44a", "note": "trace_id used for logging, db_run_id from database"}
