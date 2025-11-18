@@ -175,6 +175,61 @@ class McpToolCaller:
                 return session_id
             else:
                 raise ValueError("No session ID returned from MCP server")
+    
+    async def list_tools(self) -> list[dict]:
+        """Discover available tools from the MCP server using tools/list method
+        
+        Returns:
+            List of tool definitions with name, description, and inputSchema
+        """
+        if not self.session_id:
+            raise ValueError("Session must be initialized before listing tools")
+        
+        self.request_id += 1
+        payload = {
+            "jsonrpc": "2.0",
+            "id": self.request_id,
+            "method": "tools/list",
+            "params": {}
+        }
+        
+        try:
+            async with httpx.AsyncClient(timeout=10.0) as client:
+                response = await client.post(
+                    self.server_url,
+                    headers={
+                        "Content-Type": "application/json",
+                        "Accept": "application/json, text/event-stream",
+                        "MCP-Session-Id": self.session_id
+                    },
+                    json=payload
+                )
+                response.raise_for_status()
+                result = response.json()
+        except Exception as e:
+            log_trace(self.run_id, {
+                "method": "tools/list",
+                "event": "error",
+                "error": str(e),
+            })
+            raise
+        
+        # Check for MCP error response
+        if "error" in result:
+            error_msg = result["error"].get("message", str(result["error"]))
+            raise ValueError(f"MCP tools/list error: {error_msg}")
+        
+        # Extract tools list from MCP response
+        if "result" in result:
+            result_obj = result["result"]
+            # MCP tools/list returns { "tools": [...] }
+            if "tools" in result_obj:
+                return result_obj["tools"]
+            # Some implementations might return tools directly
+            elif isinstance(result_obj, list):
+                return result_obj
+        
+        raise ValueError("Unexpected response format from tools/list")
 
 
 class McpTool(BaseTool):

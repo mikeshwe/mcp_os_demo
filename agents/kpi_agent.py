@@ -12,9 +12,10 @@ from agents.mcp_tools import McpToolCaller
 class KPIComputationAgent:
     """Agent responsible for computing and validating KPIs"""
     
-    def __init__(self, mcp_caller: McpToolCaller, use_llm: bool = True, model: str = None):
+    def __init__(self, mcp_caller: McpToolCaller, use_llm: bool = True, model: str = None, use_tool_discovery: bool = False):
         self.mcp_caller = mcp_caller
         self.use_llm = use_llm
+        self.use_tool_discovery = use_tool_discovery
         self.llm = None
         
         if use_llm:
@@ -39,7 +40,34 @@ class KPIComputationAgent:
         }
     
     async def determine_parameters(self, quality: Dict[str, Any], deal_id: str) -> Dict[str, Any]:
-        """Determine optimal KPI computation parameters"""
+        """Determine optimal KPI computation parameters
+        
+        When use_tool_discovery is enabled, queries MCP server for compute_kpis tool schema
+        to understand available parameters and their types.
+        """
+        # If discovery mode is enabled, get tool schema to understand parameters
+        tool_schema = None
+        if self.use_tool_discovery:
+            print("🔍 Discovering compute_kpis tool schema from MCP server...")
+            try:
+                all_tools = await self.mcp_caller.list_tools()
+                compute_tool = next((t for t in all_tools if t.get("name") == "compute_kpis"), None)
+                if compute_tool:
+                    tool_schema = compute_tool.get("inputSchema", {})
+                    tool_desc = compute_tool.get("description", "")
+                    print(f"   ✓ Found compute_kpis: {tool_desc[:80]}{'...' if len(tool_desc) > 80 else ''}")
+                    if tool_schema.get("properties"):
+                        props = tool_schema["properties"]
+                        print(f"   ✓ Tool has {len(props)} parameters:")
+                        for param_name, param_info in props.items():
+                            param_type = param_info.get("type", "unknown")
+                            is_required = param_name in (tool_schema.get("required", []))
+                            print(f"     • {param_name} ({param_type}){' [required]' if is_required else ' [optional]'}")
+                else:
+                    print("   ⚠ compute_kpis tool not found in discovered tools")
+            except Exception as e:
+                print(f"⚠ Failed to discover tool schema: {e}")
+        
         if not self.use_llm or not self.llm:
             # Default parameters
             return {
@@ -48,17 +76,35 @@ class KPIComputationAgent:
                 "ttl_days": 90
             }
         
-        # Use LLM to determine parameters based on data quality
-        prompt = ChatPromptTemplate.from_messages([
-            ("system", """You are a financial analyst. Determine optimal KPI computation parameters based on data quality."""),
-            ("human", """Data Quality: {quality}
-            
-            Determine parameters:
+        # Build parameter description from schema if available
+        param_desc = """Determine parameters:
             - periods_to_sum: How many periods to sum for LTM (typically 4 for quarterly)
             - approve: Whether to auto-approve KPIs (true/false)
-            - ttl_days: Time-to-live for KPI values (typically 90)
+            - ttl_days: Time-to-live for KPI values (typically 90)"""
+        
+        if tool_schema and tool_schema.get("properties"):
+            props = tool_schema["properties"]
+            required = tool_schema.get("required", [])
+            param_desc = "Available parameters from tool schema:\n"
+            for param_name, param_info in props.items():
+                param_type = param_info.get("type", "unknown")
+                param_desc_text = param_info.get("description", "")
+                is_required = param_name in required
+                param_desc += f"  - {param_name} ({param_type}){' [required]' if is_required else ' [optional]'}"
+                if param_desc_text:
+                    param_desc += f": {param_desc_text}"
+                if "default" in param_info:
+                    param_desc += f" (default: {param_info['default']})"
+                param_desc += "\n"
+        
+        # Use LLM to determine parameters based on data quality
+        prompt = ChatPromptTemplate.from_messages([
+            ("system", """You are a financial analyst. Determine optimal KPI computation parameters based on data quality and tool schema."""),
+            ("human", """Data Quality: {quality}
             
-            Return JSON:
+            {param_desc}
+            
+            Return JSON with parameter values:
             {{"periods_to_sum": 4, "approve": true, "ttl_days": 90}}""")
         ])
         
@@ -66,7 +112,10 @@ class KPIComputationAgent:
         chain = prompt | self.llm | parser
         
         try:
-            result = await chain.ainvoke({"quality": str(quality)})
+            result = await chain.ainvoke({
+                "quality": str(quality),
+                "param_desc": param_desc
+            })
             return result
         except Exception:
             # Fallback to defaults
