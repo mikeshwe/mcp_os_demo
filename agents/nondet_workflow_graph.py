@@ -60,7 +60,8 @@ def create_non_deterministic_workflow_graph() -> StateGraph:
         
         # Get model from state or env var
         model = state.get("llm_model") or os.getenv("LLM_MODEL", "gpt-3.5-turbo")
-        agent = IngestionAgent(mcp_caller, use_llm=True, model=model)
+        use_discovery = state.get("use_tool_discovery", False)
+        agent = IngestionAgent(mcp_caller, use_llm=True, model=model, use_tool_discovery=use_discovery)
         
         # Discover files
         files = await agent.discover_files(data_dir)
@@ -101,7 +102,8 @@ def create_non_deterministic_workflow_graph() -> StateGraph:
         
         # Get model from state or env var (even though we're using fallback strategy)
         model = state.get("llm_model") or os.getenv("LLM_MODEL", "gpt-3.5-turbo")
-        agent = IngestionAgent(mcp_caller, use_llm=False, model=model)  # Use fallback strategy
+        use_discovery = state.get("use_tool_discovery", False)
+        agent = IngestionAgent(mcp_caller, use_llm=False, model=model, use_tool_discovery=use_discovery)  # Use fallback strategy
         
         files = await agent.discover_files(data_dir)
         results = await agent.ingest_all(deal_id, data_dir)
@@ -144,7 +146,8 @@ def create_non_deterministic_workflow_graph() -> StateGraph:
         
         # Get model from state or env var
         model = state.get("llm_model") or os.getenv("LLM_MODEL", "gpt-3.5-turbo")
-        agent = KPIComputationAgent(mcp_caller, use_llm=True, model=model)
+        use_discovery = state.get("use_tool_discovery", False)
+        agent = KPIComputationAgent(mcp_caller, use_llm=True, model=model, use_tool_discovery=use_discovery)
         
         # Validate data quality first
         quality = await agent.validate_data_quality(deal_id)

@@ -16,6 +16,7 @@ class WorkflowState(TypedDict):
     data_dir: str
     mcp_server_url: str  # Add this for workflow initialization
     llm_model: Optional[str]  # LLM model name (from LLM_MODEL env var)
+    use_tool_discovery: bool  # Enable dynamic tool discovery from MCP server
     
     # Workflow state
     mcp_caller: Optional[Any]  # McpToolCaller instance
