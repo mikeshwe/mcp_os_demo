@@ -4,6 +4,7 @@ Demonstrates conditional routing and decision-making
 """
 
 import asyncio
+import argparse
 import os
 import sys
 import uuid
@@ -15,6 +16,26 @@ from agents.graph_state import WorkflowState
 load_dotenv()
 
 async def main():
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(
+        description="LP One-Pager Generation - Non-Deterministic LangGraph Workflow",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Standard mode (hardcoded tool selection)
+  python demo_nondet_workflow.py
+  
+  # Discovery mode (agents query MCP server for tools and use LLM to select)
+  python demo_nondet_workflow.py --discover-tools
+        """
+    )
+    parser.add_argument(
+        "--discover-tools",
+        action="store_true",
+        help="Enable dynamic tool discovery: agents query MCP server for available tools "
+             "and their schemas, then use LLM reasoning to select the appropriate tool"
+    )
+    args = parser.parse_args()
     # Configuration
     MCP_SERVER = os.getenv("MCP_SERVER_URL", "http://localhost:3333/mcp")
     DEAL_ID = os.getenv("DEAL_ID", "00000000-0000-0000-0000-000000000001")
@@ -51,6 +72,7 @@ async def main():
         "session_label": SESSION_LABEL,
         "run_id": None,
         "llm_model": LLM_MODEL,
+        "use_tool_discovery": args.discover_tools,
         "discovered_files": {},
         "ingestion_results": {},
         "ingestion_validation": {},
@@ -70,6 +92,12 @@ async def main():
     print("\n" + "="*70)
     print("LP One-Pager Generation - Non-Deterministic LangGraph Workflow")
     print("="*70)
+    if args.discover_tools:
+        print("🔍 Tool Discovery Mode: ENABLED")
+        print("   Agents will query MCP server for available tools and use LLM reasoning")
+    else:
+        print("📋 Tool Selection Mode: Hardcoded")
+        print("   Agents use predefined logic to select tools")
     print("\nThis workflow demonstrates conditional routing based on:")
     print("  • Ingestion validation results → RETRY or CONTINUE")
     print("  • KPI validation results → FALLBACK or CONTINUE")
