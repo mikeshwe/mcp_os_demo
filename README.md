@@ -82,6 +82,18 @@ python demo_nondet_workflow.py
 - ✅ Transparent path logging
 - ✅ Intelligent tool selection (e.g., automatically uses `ingest_edgar_xbrl` for EDGAR files)
 
+### 5. View the Generated One-Pager (optional)
+
+Use the bundled Streamlit app to view the markdown one-pager in a browser:
+
+```bash
+source venv/bin/activate
+pip install streamlit  # if not already installed
+streamlit run app.py                # opens the default output/LP_OnePager_*.md
+# or to view a different file:
+# streamlit run app.py -- /path/to/onepager.md
+```
+
 ---
 
 ## 🤖 Multi-Agent Architecture

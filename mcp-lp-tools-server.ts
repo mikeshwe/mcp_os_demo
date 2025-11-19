@@ -315,11 +315,19 @@ const server = new McpServer({ name: "mcp-lp-tools", version: "0.2.0" });
 // ============================================================================
 
 // ---------- Tool: ingest_excel ----------
-server.tool("ingest_excel", "Ingest Excel (.xlsx) file and extract tables into table_cells. Detects periods, units, currency; supports multi-sheet import.", {
-  deal_id: z.string().uuid(),
-  file_path: z.string(),
-  sheet_hints: z.array(z.string()).optional(),
-  version: z.string().default("v1"),
+server.registerTool("ingest_excel", {
+  description: "Ingest Excel (.xlsx) file and extract tables into table_cells. Detects periods, units, currency; supports multi-sheet import.",
+  inputSchema: {
+    deal_id: z.string().uuid(),
+    file_path: z.string(),
+    sheet_hints: z.array(z.string()).optional(),
+    version: z.string().default("v1"),
+  },
+  outputSchema: {
+    document_id: z.string().uuid(),
+    tables_created: z.number().int(),
+    cells_inserted: z.number().int(),
+  }
 }, async ({ deal_id, file_path, sheet_hints, version }) => {
   await initDb();
   if (!fs.existsSync(file_path)) {
@@ -385,23 +393,28 @@ server.tool("ingest_excel", "Ingest Excel (.xlsx) file and extract tables into t
 
   await insertCells(allCells);
   return {
-    content: [{
-      type: 'text',
-      text: JSON.stringify({
-        document_id: doc_id,
-        tables_created: tableCount,
-        cells_inserted: allCells.length,
-      })
-    }]
+    structuredContent: {
+      document_id: doc_id,
+      tables_created: tableCount,
+      cells_inserted: allCells.length,
+    }
   };
 });
 
 // ---------- Tool: ingest_csv ----------
-server.tool("ingest_csv", "Ingest CSV file and extract structured data into table_cells. Generic ERP/BI data loader.", {
-  deal_id: z.string().uuid(),
-  file_path: z.string(),
-  has_header: z.boolean().default(true),
-  version: z.string().default("v1"),
+server.registerTool("ingest_csv", {
+  description: "Ingest CSV file and extract structured data into table_cells. Generic ERP/BI data loader.",
+  inputSchema: {
+    deal_id: z.string().uuid(),
+    file_path: z.string(),
+    has_header: z.boolean().default(true),
+    version: z.string().default("v1"),
+  },
+  outputSchema: {
+    document_id: z.string().uuid(),
+    tables_created: z.number().int(),
+    cells_inserted: z.number().int(),
+  }
 }, async ({ deal_id, file_path, has_header, version }) => {
   await initDb();
   if (!fs.existsSync(file_path)) {
@@ -450,24 +463,28 @@ server.tool("ingest_csv", "Ingest CSV file and extract structured data into tabl
 
   await insertCells(allCells);
   return {
-    content: [{
-      type: 'text',
-      text: JSON.stringify({
-        document_id: doc_id,
-        tables_created: 1,
-        cells_inserted: allCells.length,
-      })
-    }]
+    structuredContent: {
+      document_id: doc_id,
+      tables_created: 1,
+      cells_inserted: allCells.length,
+    }
   };
 });
 
 // ---------- Tool: ingest_memo ----------
-server.tool("ingest_memo", "Ingest memo/text document (.txt/.md) and split into chunks for embeddings/RAG.", {
-  deal_id: z.string().uuid(),
-  file_path: z.string(),
-  chunk_size: z.number().int().min(100).max(10000).default(1000),
-  access_tag: z.enum(["internal", "lp-safe", "mnpi"]).default("internal"),
-  version: z.string().default("v1"),
+server.registerTool("ingest_memo", {
+  description: "Ingest memo/text document (.txt/.md) and split into chunks for embeddings/RAG.",
+  inputSchema: {
+    deal_id: z.string().uuid(),
+    file_path: z.string(),
+    chunk_size: z.number().int().min(100).max(10000).default(1000),
+    access_tag: z.enum(["internal", "lp-safe", "mnpi"]).default("internal"),
+    version: z.string().default("v1"),
+  },
+  outputSchema: {
+    document_id: z.string().uuid(),
+    chunks_inserted: z.number().int(),
+  }
 }, async ({ deal_id, file_path, chunk_size, access_tag, version }) => {
   await initDb();
   if (!fs.existsSync(file_path)) {
@@ -516,21 +533,26 @@ server.tool("ingest_memo", "Ingest memo/text document (.txt/.md) and split into 
 
   await insertChunks(doc_id, chunks);
   return {
-    content: [{
-      type: 'text',
-      text: JSON.stringify({
-        document_id: doc_id,
-        chunks_inserted: chunks.length,
-      })
-    }]
+    structuredContent: {
+      document_id: doc_id,
+      chunks_inserted: chunks.length,
+    }
   };
 });
 
 // ---------- Tool: ingest_billing ----------
-server.tool("ingest_billing", "Ingest billing data CSV (MRR movements) into table_cells. Stub for future Stripe/Zuora integration.", {
-  deal_id: z.string().uuid(),
-  file_path: z.string(),
-  version: z.string().default("v1"),
+server.registerTool("ingest_billing", {
+  description: "Ingest billing data CSV (MRR movements) into table_cells. Stub for future Stripe/Zuora integration.",
+  inputSchema: {
+    deal_id: z.string().uuid(),
+    file_path: z.string(),
+    version: z.string().default("v1"),
+  },
+  outputSchema: {
+    document_id: z.string().uuid(),
+    tables_created: z.number().int(),
+    cells_inserted: z.number().int(),
+  }
 }, async ({ deal_id, file_path, version }) => {
   await initDb();
   if (!fs.existsSync(file_path)) {
@@ -575,22 +597,28 @@ server.tool("ingest_billing", "Ingest billing data CSV (MRR movements) into tabl
 
   await insertCells(allCells);
   return {
-    content: [{
-      type: 'text',
-      text: JSON.stringify({
-        document_id: doc_id,
-        tables_created: 1,
-        cells_inserted: allCells.length,
-      })
-    }]
+    structuredContent: {
+      document_id: doc_id,
+      tables_created: 1,
+      cells_inserted: allCells.length,
+    }
   };
 });
 
 // ---------- Tool: ingest_edgar_xbrl ----------
-server.tool("ingest_edgar_xbrl", "Ingest SEC EDGAR XBRL CSV export and map XBRL concepts to canonical labels into table_cells.", {
-  deal_id: z.string().uuid(),
-  file_path: z.string(),
-  version: z.string().default("v1"),
+server.registerTool("ingest_edgar_xbrl", {
+  description: "Ingest SEC EDGAR XBRL CSV export and map XBRL concepts to canonical labels into table_cells.",
+  inputSchema: {
+    deal_id: z.string().uuid(),
+    file_path: z.string(),
+    version: z.string().default("v1"),
+  },
+  outputSchema: {
+    document_id: z.string().uuid(),
+    tables_created: z.number().int(),
+    cells_inserted: z.number().int(),
+    xbrl_concepts_mapped: z.number().int(),
+  }
 }, async ({ deal_id, file_path, version }) => {
   await initDb();
   if (!fs.existsSync(file_path)) {
@@ -643,23 +671,29 @@ server.tool("ingest_edgar_xbrl", "Ingest SEC EDGAR XBRL CSV export and map XBRL 
 
   await insertCells(allCells);
   return {
-    content: [{
-      type: 'text',
-      text: JSON.stringify({
-        document_id: doc_id,
-        tables_created: 1,
-        cells_inserted: allCells.length,
-        xbrl_concepts_mapped: Object.keys(xbrlMapping).length,
-      })
-    }]
+    structuredContent: {
+      document_id: doc_id,
+      tables_created: 1,
+      cells_inserted: allCells.length,
+      xbrl_concepts_mapped: Object.keys(xbrlMapping).length,
+    }
   };
 });
 
 // ---------- Tool: ingest_snowflake ----------
-server.tool("ingest_snowflake", "Ingest Snowflake data warehouse CSV export into table_cells. Proxy for future direct connector.", {
-  deal_id: z.string().uuid(),
-  file_path: z.string(),
-  version: z.string().default("v1"),
+server.registerTool("ingest_snowflake", {
+  description: "Ingest Snowflake data warehouse CSV export into table_cells. Proxy for future direct connector.",
+  inputSchema: {
+    deal_id: z.string().uuid(),
+    file_path: z.string(),
+    version: z.string().default("v1"),
+  },
+  outputSchema: {
+    document_id: z.string().uuid(),
+    tables_created: z.number().int(),
+    cells_inserted: z.number().int(),
+    note: z.string().optional(),
+  }
 }, async ({ deal_id, file_path, version }) => {
   await initDb();
   if (!fs.existsSync(file_path)) {
@@ -705,15 +739,12 @@ server.tool("ingest_snowflake", "Ingest Snowflake data warehouse CSV export into
 
   await insertCells(allCells);
   return {
-    content: [{
-      type: 'text',
-      text: JSON.stringify({
-        document_id: doc_id,
-        tables_created: 1,
-        cells_inserted: allCells.length,
-        note: "Future: direct Snowflake connector will replace CSV export",
-      })
-    }]
+    structuredContent: {
+      document_id: doc_id,
+      tables_created: 1,
+      cells_inserted: allCells.length,
+      note: "Future: direct Snowflake connector will replace CSV export",
+    }
   };
 });
 
@@ -747,14 +778,24 @@ async function fetchCellsByLabel(deal_id: string, label: string) {
 }
 
 // ---------- Tool: compute_kpis ----------
-server.tool("compute_kpis", "Compute core KPIs (Revenue_LTM, YoY_Growth, Gross_Margin, EBITDA_Margin) from TableCells and write KPIValues + GoldenFacts.", {
-  deal_id: z.string().uuid(),
-  revenue_label: z.string().default("Revenue"),
-  gross_margin_label: z.string().default("GrossMargin"),
-  ebitda_margin_label: z.string().default("EBITDA_Margin"),
-  periods_to_sum: z.number().int().min(2).max(12).default(4),
-  approve: z.boolean().default(true),
-  ttl_days: z.number().int().min(1).max(365).default(90),
+server.registerTool("compute_kpis", {
+  description: "Compute core KPIs (Revenue_LTM, YoY_Growth, Gross_Margin, EBITDA_Margin) from TableCells and write KPIValues + GoldenFacts.",
+  inputSchema: {
+    deal_id: z.string().uuid(),
+    revenue_label: z.string().default("Revenue"),
+    gross_margin_label: z.string().default("GrossMargin"),
+    ebitda_margin_label: z.string().default("EBITDA_Margin"),
+    periods_to_sum: z.number().int().min(2).max(12).default(4),
+    approve: z.boolean().default(true),
+    ttl_days: z.number().int().min(1).max(365).default(90),
+  },
+  outputSchema: {
+    as_of: z.string().nullable().optional(),
+    created: z.array(z.object({
+      name: z.string(),
+      kpi_value_id: z.string().uuid().nullable().optional(),
+    })),
+  }
 }, async ({
   deal_id,
   revenue_label,
@@ -790,7 +831,8 @@ server.tool("compute_kpis", "Compute core KPIs (Revenue_LTM, YoY_Growth, Gross_M
     );
   }
 
-  const latestPeriod = rev[0].period;
+  const latestPeriodRaw = rev[0].period;
+  const latestPeriod = latestPeriodRaw ? dayjs(latestPeriodRaw).format("YYYY-MM-DD") : null;
   const useRevCells = rev.slice(0, periods_to_sum);
   const revenueLtmVal = useRevCells.reduce((s, r) => s + Number(r.value || 0), 0);
   const revenueUnit = useRevCells[0]?.unit ?? null;
@@ -875,7 +917,7 @@ server.tool("compute_kpis", "Compute core KPIs (Revenue_LTM, YoY_Growth, Gross_M
     ],
   };
 
-  return { content: [{ type: 'text', text: JSON.stringify(result) }] };
+  return { structuredContent: result };
 });
 
 // ============================================================================
@@ -883,9 +925,21 @@ server.tool("compute_kpis", "Compute core KPIs (Revenue_LTM, YoY_Growth, Gross_M
 // ============================================================================
 
 // ---------- Tool: get_golden_facts ----------
-server.tool("get_golden_facts", "Fetch approved GoldenFacts (KPI snapshot) for a deal.", {
-  deal_id: z.string().uuid(),
-  kpis: z.array(z.string()).optional(),
+server.registerTool("get_golden_facts", {
+  description: "Fetch approved GoldenFacts (KPI snapshot) for a deal.",
+  inputSchema: {
+    deal_id: z.string().uuid(),
+    kpis: z.array(z.string()).optional(),
+  },
+  outputSchema: {
+    snapshot: z.array(z.object({
+      kpi: z.string(),
+      value: z.union([z.string(), z.number()]),
+      unit: z.string().nullable().optional(),
+      as_of: z.string().optional(),
+      formula: z.string().optional()
+    }))
+  }
 }, async ({ deal_id, kpis }) => {
   await initDb();
   const params: any[] = [deal_id];
@@ -901,13 +955,35 @@ server.tool("get_golden_facts", "Fetch approved GoldenFacts (KPI snapshot) for a
   }
   sql += " ORDER BY k.name";
   const { rows } = await pgPool.query(sql, params);
-  return { content: [{ type: 'text', text: JSON.stringify({ snapshot: rows }) }] };
+  const snapshot = rows.map(r => ({
+    kpi: r.kpi,
+    value: r.value,
+    unit: r.unit,
+    as_of: r.as_of ? dayjs(r.as_of).format("YYYY-MM-DD") : undefined,
+    formula: r.formula
+  }));
+  return { structuredContent: { snapshot } };
 });
 
 // ---------- Tool: get_kpi_lineage ----------
-server.tool("get_kpi_lineage", "Get lineage (underlying cells) for KPI values in a deal.", {
-  deal_id: z.string().uuid(),
-  kpis: z.array(z.string()).optional(),
+server.registerTool("get_kpi_lineage", {
+  description: "Get lineage (underlying cells) for KPI values in a deal.",
+  inputSchema: {
+    deal_id: z.string().uuid(),
+    kpis: z.array(z.string()).optional(),
+  },
+  outputSchema: {
+    lineage: z.record(z.string(), z.array(z.object({
+      kpi: z.string(),
+      kpi_value_id: z.string().uuid(),
+      table_name: z.string().nullable(),
+      source_ref: z.string().nullable(),
+      label: z.string().nullable(),
+      period: z.string().nullable(),
+      value: z.union([z.string(), z.number()]).nullable(),
+      unit: z.string().nullable()
+    })))
+  }
 }, async ({ deal_id, kpis }) => {
   await initDb();
   const params: any[] = [deal_id];
@@ -926,12 +1002,16 @@ server.tool("get_kpi_lineage", "Get lineage (underlying cells) for KPI values in
   }
   sql += ` ORDER BY k.name, c.period DESC`;
   const { rows } = await pgPool.query(sql, params);
-  // Group by KPI for nicer shape
+  // Group by KPI for nicer shape, and normalize dates to strings
   const byKpi: Record<string, any[]> = {};
   for (const r of rows) {
-    (byKpi[r.kpi] ??= []).push(r);
+    const normalized = {
+      ...r,
+      period: r.period ? dayjs(r.period).format("YYYY-MM-DD") : null,
+    };
+    (byKpi[r.kpi] ??= []).push(normalized);
   }
-  return { content: [{ type: 'text', text: JSON.stringify({ lineage: byKpi }) }] };
+  return { structuredContent: { lineage: byKpi } };
 });
 
 // ---------- Vector search helpers ----------
@@ -1062,23 +1142,30 @@ function findRelevantChunksRuleBased(memoChunks: any[], sectionType: 'thesis' | 
 }
 
 // ---------- Tool: render_onepager_markdown ----------
-server.tool("render_onepager_markdown", "Render a Markdown LP one‑pager from snapshot + optional bullets with lineage links.", {
-  company: z.string(),
-  period_end: z.string().optional(),
-  snapshot: z.array(
-    z.object({ kpi: z.string(), value: z.number(), unit: z.string().nullable().optional(), as_of: z.string().optional(), formula: z.string().optional() })
-  ),
-  bullets: z.object({ thesis: z.array(z.string()).max(5).optional(), risks: z.array(z.string()).max(5).optional(), }).optional(),
-  theme: z.object({ brand: z.string().optional() }).optional(),
-  deal_id: z.string().uuid().optional(),
-  lineage: z.record(z.string(), z.array(z.object({
-    table_name: z.string(),
-    source_ref: z.string().nullable(),
-    label: z.string().nullable(),
-    period: z.string().nullable(),
-    value: z.union([z.string(), z.number()]).nullable(),
-    unit: z.string().nullable(),
-  }))).optional(),
+server.registerTool("render_onepager_markdown", {
+  description: "Render a Markdown LP one‑pager from snapshot + optional bullets with lineage links.",
+  inputSchema: {
+    company: z.string(),
+    period_end: z.string().optional(),
+    snapshot: z.array(
+      z.object({ kpi: z.string(), value: z.number(), unit: z.string().nullable().optional(), as_of: z.string().optional(), formula: z.string().optional() })
+    ),
+    bullets: z.object({ thesis: z.array(z.string()).max(5).optional(), risks: z.array(z.string()).max(5).optional(), }).optional(),
+    theme: z.object({ brand: z.string().optional() }).optional(),
+    deal_id: z.string().uuid().optional(),
+    lineage: z.record(z.string(), z.array(z.object({
+      table_name: z.string(),
+      source_ref: z.string().nullable(),
+      label: z.string().nullable(),
+      period: z.string().nullable(),
+      value: z.union([z.string(), z.number()]).nullable(),
+      unit: z.string().nullable(),
+    }))).optional(),
+  },
+  outputSchema: {
+    markdown: z.string(),
+    brand: z.string().nullable().optional(),
+  }
 }, async ({ company, period_end, snapshot, bullets, theme, deal_id, lineage }) => {
   await initDb();
   
@@ -1334,13 +1421,22 @@ server.tool("render_onepager_markdown", "Render a Markdown LP one‑pager from s
     "\n---\n\n*Generated by MCP tools: render_onepager_markdown*\n",
   ].join("\n");
 
-  return { content: [{ type: 'text', text: JSON.stringify({ markdown: md, brand: theme?.brand ?? null }) }] };
+  return { structuredContent: { markdown: md, brand: theme?.brand ?? null } };
 });
 
 // ---------- Tool: clear_deal_data ----------
-server.tool("clear_deal_data", "Clear all ingested data for a deal (documents, table_cells, chunks, KPIs, etc.) to allow re-ingestion.", {
-  deal_id: z.string().uuid(),
-  confirm: z.boolean().default(false),
+server.registerTool("clear_deal_data", {
+  description: "Clear all ingested data for a deal (documents, table_cells, chunks, KPIs, etc.) to allow re-ingestion.",
+  inputSchema: {
+    deal_id: z.string().uuid(),
+    confirm: z.boolean().default(false),
+  },
+  outputSchema: {
+    deal_id: z.string().uuid(),
+    cleared: z.boolean(),
+    deleted_counts: z.record(z.string(), z.number().int()),
+    message: z.string(),
+  }
 }, async ({ deal_id, confirm }) => {
   try {
     await initDb();
@@ -1398,15 +1494,12 @@ server.tool("clear_deal_data", "Clear all ingested data for a deal (documents, t
     results.documents = r.rowCount || 0;
     
     return {
-      content: [{
-        type: 'text',
-        text: JSON.stringify({
-          deal_id,
-          cleared: true,
-          deleted_counts: results,
-          message: `Successfully cleared all data for deal ${deal_id}`
-        })
-      }]
+      structuredContent: {
+        deal_id,
+        cleared: true,
+        deleted_counts: results,
+        message: `Successfully cleared all data for deal ${deal_id}`
+      }
     };
   } catch (error: any) {
     let errorMessage = 'Unknown error';
@@ -1425,13 +1518,20 @@ server.tool("clear_deal_data", "Clear all ingested data for a deal (documents, t
 });
 
 // ---------- Tool: register_output ----------
-server.tool("register_output", "Create a Runs/Outputs row to track an artifact and its lineage.", {
-  deal_id: z.string().uuid(),
-  recipe: z.string().default("LP_OnePager_v1"),
-  model: z.string().optional(),
-  kind: z.enum(["markdown","docx","pdf","json"]).default("markdown"),
-  uri: z.string().optional(),
-  summary: z.string().optional()
+server.registerTool("register_output", {
+  description: "Create a Runs/Outputs row to track an artifact and its lineage.",
+  inputSchema: {
+    deal_id: z.string().uuid(),
+    recipe: z.string().default("LP_OnePager_v1"),
+    model: z.string().optional(),
+    kind: z.enum(["markdown","docx","pdf","json"]).default("markdown"),
+    uri: z.string().optional(),
+    summary: z.string().optional()
+  },
+  outputSchema: {
+    run_id: z.string().uuid(),
+    output_id: z.string().uuid(),
+  }
 }, async ({ deal_id, recipe, model, kind, uri, summary }) => {
   await initDb();
   const { rows: runRows } = await pgPool.query(
@@ -1445,7 +1545,7 @@ server.tool("register_output", "Create a Runs/Outputs row to track an artifact a
     [run.run_id, kind, uri ?? null, summary ?? null]
   );
 
-  return { content: [{ type: 'text', text: JSON.stringify({ run_id: run.run_id, output_id: outRows[0].output_id }) }] };
+  return { structuredContent: { run_id: run.run_id, output_id: outRows[0].output_id } };
 });
 
 // ============================================================================
