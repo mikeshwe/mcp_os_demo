@@ -266,7 +266,6 @@ pip install -r requirements.txt
   - Tool specifications
 
 - **[agents/README.md](agents/README.md)** - Agent implementation details
-- **[NONDET_WORKFLOW.md](NONDET_WORKFLOW.md)** - Non-deterministic workflow documentation
 
 ---
 
