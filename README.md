@@ -72,7 +72,41 @@ Run the non-deterministic multi-agent workflow:
 
 ```bash
 source venv/bin/activate
-python demo_nondet_workflow.py
+python demo_agent_workflow.py
+```
+
+**Standard Mode (Hardcoded Tool Selection):**
+- Agents use predefined logic to select tools
+- Fast and reliable for known file types
+- Default behavior
+
+**Dynamic Tool Discovery Mode:**
+
+Enable dynamic tool discovery where agents query the MCP server for available tools and use LLM reasoning to select the appropriate tool:
+
+```bash
+python demo_agent_workflow.py --discover-tools
+```
+
+**What Dynamic Mode Does:**
+- 🔍 Agents query MCP server via `tools/list` to discover available tools and their schemas
+- 🤖 LLM uses discovered tool information (descriptions, parameters) to intelligently select tools
+- 📋 Tool selection based on file types, patterns, and tool capabilities
+- ✅ All tool calls still validated against hardcoded `ALLOWED_TOOLS` allowlist (security unchanged)
+- 📊 Verbose logging shows discovery process and tool selection reasoning
+
+**Example Output in Discovery Mode:**
+```
+🔍 Tool Discovery Mode: ENABLED
+🔍 Discovering ingestion tools from MCP server...
+   Found 12 total tools from server
+   Discovered 6 ingestion tools:
+     • ingest_excel: Ingest Excel (.xlsx) file...
+     • ingest_csv: Ingest CSV file...
+🤖 Using LLM to select tools based on discovered tool schemas...
+   LLM tool selection results:
+     ✓ financials_Q3_2025.xlsx → ingest_excel (priority: 1)
+     ✓ edgar_xbrl_q3_2025.csv → ingest_edgar_xbrl (priority: 1)
 ```
 
 **Features:**
@@ -80,19 +114,47 @@ python demo_nondet_workflow.py
 - ✅ Conditional routing based on validation results
 - ✅ Fallback mechanisms for failures
 - ✅ Transparent path logging
-- ✅ Intelligent tool selection (e.g., automatically uses `ingest_edgar_xbrl` for EDGAR files)
+- ✅ Intelligent tool selection (hardcoded or LLM-powered via `--discover-tools`)
+- ✅ Dynamic tool discovery (optional, enables LLM reasoning about tool selection)
 
-### 5. View the Generated One-Pager (optional)
+### 5. View the Generated One-Pager with Streamlit
 
-Use the bundled Streamlit app to view the markdown one-pager in a browser:
+Use the bundled Streamlit app to view the markdown one-pager in a formatted, interactive browser interface:
 
+**Install Streamlit (if not already installed):**
 ```bash
 source venv/bin/activate
-pip install streamlit  # if not already installed
-streamlit run app.py                # opens the default output/LP_OnePager_*.md
-# or to view a different file:
-# streamlit run app.py -- /path/to/onepager.md
+pip install streamlit
 ```
+
+**Run the Streamlit app:**
+```bash
+streamlit run app.py
+```
+
+This will:
+- 🌐 Automatically open your default browser
+- 📄 Display the formatted one-pager at `output/LP_OnePager_Acme_Software_Inc_2025_09_30_agent.md`
+- 🎨 Render markdown with proper formatting (tables, bullets, HTML)
+- 💾 Provide a download button for the markdown file
+- 📋 Show raw markdown code in an expandable section
+
+**View a Different File:**
+```bash
+streamlit run app.py -- /path/to/your/onepager.md
+```
+
+**Access the App:**
+- Default URL: `http://localhost:8501`
+- If port 8501 is in use, Streamlit will use the next available port (8502, 8503, etc.)
+- The URL will be displayed in the terminal output
+
+**Features:**
+- ✅ Formatted markdown rendering with HTML support
+- ✅ Expandable source links (click "📊 View sources" in tables)
+- ✅ Download button for markdown file
+- ✅ Raw markdown code viewer
+- ✅ File path displayed at top
 
 ---
 
@@ -204,7 +266,6 @@ pip install -r requirements.txt
   - Tool specifications
 
 - **[agents/README.md](agents/README.md)** - Agent implementation details
-- **[NONDET_WORKFLOW.md](NONDET_WORKFLOW.md)** - Non-deterministic workflow documentation
 
 ---
 
@@ -218,13 +279,15 @@ pip install -r requirements.txt
 ### Multi-Agent Workflow
 - Specialized agents for ingestion, computation, and content generation
 - LLM-powered decision-making
+- **Dynamic tool discovery** (optional): Agents query MCP server and use LLM reasoning to select tools
 - Automatic retry and fallback mechanisms
 - Quality validation at each step
 
 ### MCP Protocol
 - Standardized JSON-RPC interface
 - Session management
-- Tool discovery and validation
+- Tool discovery and validation (`tools/list` method)
+- Dynamic tool discovery mode (agents query server for available tools)
 - Streaming support
 
 ### Traceability
@@ -257,7 +320,7 @@ The workflow generates markdown one-pagers with:
 - Key risks & mitigants section with expandable sources
 - Full lineage traceability
 
-Example output: `output/LP_OnePager_Acme_Software_Inc_2025_09_30_nondet.md`
+Example output: `output/LP_OnePager_Acme_Software_Inc_2025_09_30_agent.md`
 
 ---
 
@@ -275,7 +338,7 @@ Example output: `output/LP_OnePager_Acme_Software_Inc_2025_09_30_nondet.md`
 ├── scripts/                   # Utility scripts
 ├── sql/                       # Database schema and seeds
 ├── mcp-lp-tools-server.ts    # MCP server (TypeScript)
-├── demo_nondet_workflow.py    # Non-deterministic workflow demo (recommended)
+├── demo_agent_workflow.py     # Multi-agent workflow demo (recommended)
 ├── prd.md                     # Product Requirements Document
 └── README.md                  # This file
 ```

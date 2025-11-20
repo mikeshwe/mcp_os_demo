@@ -1,6 +1,6 @@
 """
-Demo script using LangGraph non-deterministic workflow
-Demonstrates conditional routing and decision-making
+Demo script using LangGraph multi-agent workflow
+Demonstrates conditional routing and decision-making with specialized agents
 """
 
 import asyncio
@@ -18,15 +18,15 @@ load_dotenv()
 async def main():
     # Parse command line arguments
     parser = argparse.ArgumentParser(
-        description="LP One-Pager Generation - Non-Deterministic LangGraph Workflow",
+        description="LP One-Pager Generation - Multi-Agent LangGraph Workflow",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
   # Standard mode (hardcoded tool selection)
-  python demo_nondet_workflow.py
+  python demo_agent_workflow.py
   
   # Discovery mode (agents query MCP server for tools and use LLM to select)
-  python demo_nondet_workflow.py --discover-tools
+  python demo_agent_workflow.py --discover-tools
         """
     )
     parser.add_argument(
@@ -90,7 +90,7 @@ Examples:
     }
     
     print("\n" + "="*70)
-    print("LP One-Pager Generation - Non-Deterministic LangGraph Workflow")
+    print("LP One-Pager Generation - Multi-Agent LangGraph Workflow")
     print("="*70)
     if args.discover_tools:
         print("🔍 Tool Discovery Mode: ENABLED")

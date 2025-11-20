@@ -431,7 +431,7 @@ def create_non_deterministic_workflow_graph() -> StateGraph:
         
         safe_name = company_name.replace(" ", "_").replace(",", "").replace(".", "")
         output_dir = "output"
-        output_file = f"{output_dir}/LP_OnePager_{safe_name}_{period_end.replace('-', '_')}_nondet.md"
+        output_file = f"{output_dir}/LP_OnePager_{safe_name}_{period_end.replace('-', '_')}_agent.md"
         
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
         with open(output_file, 'w') as f:
@@ -465,7 +465,7 @@ def create_non_deterministic_workflow_graph() -> StateGraph:
         try:
             result = await mcp_caller.call_tool("register_output", {
                 "deal_id": deal_id,
-                "recipe": "LP_OnePager_v1_nondet",
+                "recipe": "LP_OnePager_v1_agent",
                 "kind": "markdown",
                 "uri": f"file://{os.path.abspath(output_file)}"
             })
