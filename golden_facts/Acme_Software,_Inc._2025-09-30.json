@@ -2,814 +2,198 @@
   "snapshot": [
     {
       "kpi": "EBITDA_Margin",
-      "value": 18.6,
+      "value": 22900000.0,
       "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "EBITDA/Revenue"
     },
     {
       "kpi": "EBITDA_Margin",
       "value": 22900000.0,
       "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "EBITDA/Revenue"
     },
     {
       "kpi": "EBITDA_Margin",
       "value": 22900000.0,
       "unit": "pct",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "EBITDA/Revenue"
     },
     {
       "kpi": "EBITDA_Margin",
-      "value": 18.6,
+      "value": 22900000.0,
       "unit": "pct",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "EBITDA/Revenue"
     },
     {
       "kpi": "EBITDA_Margin",
-      "value": 18.6,
+      "value": 22900000.0,
       "unit": "pct",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "EBITDA/Revenue"
     },
     {
       "kpi": "EBITDA_Margin",
-      "value": 18.6,
+      "value": 22900000.0,
       "unit": "pct",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "EBITDA/Revenue"
     },
     {
       "kpi": "EBITDA_Margin",
-      "value": 18.6,
+      "value": 22900000.0,
       "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "EBITDA/Revenue"
-    },
-    {
-      "kpi": "EBITDA_Margin",
-      "value": 18.6,
-      "unit": "pct",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "EBITDA/Revenue"
     },
     {
       "kpi": "Gross_Margin",
-      "value": 72.1,
+      "value": 89600000.0,
       "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "GrossProfit/Revenue"
     },
     {
       "kpi": "Gross_Margin",
       "value": 89600000.0,
       "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "GrossProfit/Revenue"
-    },
-    {
-      "kpi": "Gross_Margin",
-      "value": 72.1,
-      "unit": "pct",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "GrossProfit/Revenue"
     },
     {
       "kpi": "Gross_Margin",
       "value": 89600000.0,
       "unit": "pct",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "GrossProfit/Revenue"
     },
     {
       "kpi": "Gross_Margin",
-      "value": 72.1,
+      "value": 89600000.0,
       "unit": "pct",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "GrossProfit/Revenue"
     },
     {
       "kpi": "Gross_Margin",
-      "value": 72.1,
+      "value": 89600000.0,
       "unit": "pct",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "GrossProfit/Revenue"
     },
     {
       "kpi": "Gross_Margin",
-      "value": 72.1,
+      "value": 89600000.0,
       "unit": "pct",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
+      "formula": "GrossProfit/Revenue"
+    },
+    {
+      "kpi": "Gross_Margin",
+      "value": 89600000.0,
+      "unit": "pct",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "GrossProfit/Revenue"
     },
     {
       "kpi": "Revenue_LTM",
       "value": 497200000.0,
       "unit": "USD",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "SUM(last periods)"
     },
     {
       "kpi": "Revenue_LTM",
-      "value": 372900124.3,
-      "unit": "USD_mm",
-      "as_of": "2025-09-30",
-      "formula": "SUM(last periods)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 372900124.3,
+      "value": 442200000.0,
       "unit": "USD",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "SUM(last periods)"
     },
     {
       "kpi": "Revenue_LTM",
-      "value": 372900124.3,
+      "value": 442200000.0,
       "unit": "USD",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "SUM(last periods)"
     },
     {
       "kpi": "Revenue_LTM",
       "value": 497200000.0,
       "unit": "USD",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "SUM(last periods)"
     },
     {
       "kpi": "Revenue_LTM",
       "value": 497200000.0,
       "unit": "USD",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "SUM(last periods)"
     },
     {
       "kpi": "Revenue_LTM",
       "value": 497200000.0,
       "unit": "USD",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "SUM(last periods)"
     },
     {
       "kpi": "Revenue_LTM",
-      "value": 372900124.3,
+      "value": 442200000.0,
       "unit": "USD",
-      "as_of": "2025-09-30",
-      "formula": "SUM(last periods)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 497200000.0,
-      "unit": "USD",
-      "as_of": "2025-09-30",
-      "formula": "SUM(last periods)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 497200000.0,
-      "unit": "USD",
-      "as_of": "2025-09-30",
-      "formula": "SUM(last periods)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 497200000.0,
-      "unit": "USD",
-      "as_of": "2025-09-30",
-      "formula": "SUM(last periods)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 372900124.3,
-      "unit": "USD",
-      "as_of": "2025-09-30",
-      "formula": "SUM(last periods)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 372900124.3,
-      "unit": "USD_mm",
-      "as_of": "2025-09-30",
-      "formula": "SUM(last periods)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 497200000.0,
-      "unit": "USD",
-      "as_of": "2025-09-30",
-      "formula": "SUM(last periods)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 372900124.3,
-      "unit": "USD",
-      "as_of": "2025-09-30",
-      "formula": "SUM(last periods)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 497200000.0,
-      "unit": "USD",
-      "as_of": "2025-09-30",
-      "formula": "SUM(last periods)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 497200000.0,
-      "unit": "USD",
-      "as_of": "2025-09-30",
-      "formula": "SUM(last periods)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 497200000.0,
-      "unit": "USD",
-      "as_of": "2025-09-30",
-      "formula": "SUM(last periods)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 124.3,
-      "unit": "USD_mm",
-      "as_of": "2025-09-30",
-      "formula": "SUM(LTM revenue)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 497200000.0,
-      "unit": "USD",
-      "as_of": "2025-09-30",
-      "formula": "SUM(last periods)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 497200000.0,
-      "unit": "USD",
-      "as_of": "2025-09-30",
-      "formula": "SUM(last periods)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 497200000.0,
-      "unit": "USD",
-      "as_of": "2025-09-30",
-      "formula": "SUM(last periods)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 497200000.0,
-      "unit": "USD",
-      "as_of": "2025-09-30",
-      "formula": "SUM(last periods)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 497200000.0,
-      "unit": "USD",
-      "as_of": "2025-09-30",
-      "formula": "SUM(last periods)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 497200000.0,
-      "unit": "USD",
-      "as_of": "2025-09-30",
-      "formula": "SUM(last periods)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 497200000.0,
-      "unit": "USD",
-      "as_of": "2025-09-30",
-      "formula": "SUM(last periods)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 497200000.0,
-      "unit": "USD",
-      "as_of": "2025-09-30",
-      "formula": "SUM(last periods)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 497200000.0,
-      "unit": "USD",
-      "as_of": "2025-09-30",
-      "formula": "SUM(last periods)"
-    },
-    {
-      "kpi": "Revenue_LTM",
-      "value": 497200000.0,
-      "unit": "USD",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "SUM(last periods)"
     },
     {
       "kpi": "YoY_Growth",
       "value": 28.40909090909091,
       "unit": "pct",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
     },
     {
       "kpi": "YoY_Growth",
       "value": 28.40909090909091,
       "unit": "pct",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
     },
     {
       "kpi": "YoY_Growth",
       "value": 28.40909090909091,
       "unit": "pct",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
     },
     {
       "kpi": "YoY_Growth",
       "value": 28.40909090909091,
       "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": -99.9998715909091,
-      "unit": "pct",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
     },
     {
       "kpi": "YoY_Growth",
       "value": 28.40909090909091,
       "unit": "pct",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
     },
     {
       "kpi": "YoY_Growth",
       "value": 28.40909090909091,
       "unit": "pct",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
     },
     {
       "kpi": "YoY_Growth",
       "value": 28.40909090909091,
       "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": 28.40909090909091,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": 28.40909090909091,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": 28.40909090909091,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": 28.40909090909091,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": 28.40909090909091,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": 28.4,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t-Rev_t-4)/Rev_t-4"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": 28.40909090909091,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": 28.40909090909091,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": 28.40909090909091,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": 28.40909090909091,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": 28.40909090909091,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": 28.40909090909091,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": 28.40909090909091,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": 28.40909090909091,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": 28.40909090909091,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": 28.40909090909091,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": 28.40909090909091,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": 28.40909090909091,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": -99.9998715909091,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": 28.40909090909091,
-      "unit": "pct",
-      "as_of": "2025-09-30",
-      "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
-    },
-    {
-      "kpi": "YoY_Growth",
-      "value": 28.40909090909091,
-      "unit": "pct",
-      "as_of": "2025-09-30",
+      "as_of": "2025-09-30T07:00:00.000Z",
       "formula": "(Rev_t - Rev_t-1y)/Rev_t-1y"
     }
   ]
