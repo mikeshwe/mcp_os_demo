@@ -96,7 +96,7 @@ for csv_file in files.get("csv", []):
 
 Run the demo to verify:
 ```bash
-python demo_nondet_workflow.py
+python demo_agent_workflow.py
 ```
 
 Expected output:

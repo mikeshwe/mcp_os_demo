@@ -296,7 +296,7 @@ See the [Multi-Agent Non-Deterministic Workflow](#-multi-agent-non-deterministic
 
 Multiple execution modes are available:
 
-- **`demo_nondet_workflow.py`** - Non-deterministic multi-agent workflow (recommended)
+- **`demo_agent_workflow.py`** - Multi-agent workflow (recommended)
 
 ---
 
@@ -439,6 +439,7 @@ The system uses a **multi-agent architecture** powered by **LangGraph** to orche
 - **Features**:
   - LLM determines optimal ingestion strategy based on file types and content
   - LLM model configurable via `LLM_MODEL` environment variable (default: `gpt-3.5-turbo`)
+  - **Dynamic tool discovery**: Can query MCP server for available ingestion tools and their schemas, then use LLM reasoning to select the appropriate tool (enabled via `--discover-tools` flag)
   - Retries failed ingestions with alternative parameters (up to 2 retries)
   - Validates that required file types are ingested
   - Provides warnings and recommendations for missing data
@@ -453,6 +454,7 @@ The system uses a **multi-agent architecture** powered by **LangGraph** to orche
 - **Features**:
   - Checks data availability before computation
   - LLM determines optimal parameters (periods_to_sum, approve, ttl_days)
+  - **Dynamic tool discovery**: Can query MCP server for `compute_kpis` tool schema and use it to build detailed parameter descriptions for LLM reasoning (enabled via `--discover-tools` flag)
   - LLM model configurable via `LLM_MODEL` environment variable (default: `gpt-3.5-turbo`)
   - Validates that required KPIs are computed
   - Falls back to existing KPIs if computation fails
@@ -535,6 +537,52 @@ The workflow is implemented using:
 - **Python Agents**: Specialized agent classes for each domain
 - **MCP Tools**: Underlying tools exposed via MCP protocol
 
+### Dynamic Tool Discovery Mode
+
+The workflow supports two execution modes for tool selection:
+
+#### Standard Mode (Default)
+- Agents use hardcoded logic to select tools
+- Fast and predictable execution
+- Suitable for production environments with stable tool sets
+
+#### Discovery Mode (`--discover-tools`)
+- Agents query the MCP server using `tools/list` to discover available tools
+- LLM reasons about tool selection based on:
+  - Tool names and descriptions
+  - Tool input schemas (JSON Schema format)
+  - Current task context and available data files
+- Discovered tools are validated against a hardcoded allowlist before execution
+- Verbose logging shows the discovery process and LLM reasoning
+
+**How It Works**:
+
+1. **Tool Discovery**: Agents call `McpToolCaller.list_tools()` which sends a `tools/list` request to the MCP server
+2. **Tool Filtering**: IngestionAgent filters tools by prefix (e.g., `ingest_*`), KPIComputationAgent filters for `compute_kpis`
+3. **LLM Reasoning**: The LLM receives:
+   - List of available tools with descriptions
+   - Tool input schemas (parameters, types, required fields)
+   - Current context (file names, data types, task requirements)
+4. **Tool Selection**: LLM selects the appropriate tool and parameters
+5. **Validation**: Selected tool name is validated against `ALLOWED_TOOLS` allowlist
+6. **Execution**: Tool is called via MCP protocol
+
+**Example Discovery Output**:
+```
+🔍 Discovering ingestion tools from MCP server...
+   Found 12 total tools from server
+   Discovered 6 ingestion tools:
+     • ingest_excel: Ingest financial data from Excel files...
+     • ingest_edgar_xbrl: Ingest XBRL data from EDGAR filings...
+     • ingest_memo: Ingest memo documents...
+```
+
+**Security Model**:
+- MCP server exposes a fixed set of tools (hardcoded in server implementation)
+- Client-side `ALLOWED_TOOLS` set provides an additional validation layer
+- Only tools present in both the server's exposed set AND the client's allowlist can be executed
+- This dual-layer approach ensures security even if discovery is enabled
+
 ### LLM Configuration
 
 All agents use a **configurable LLM model** via the `LLM_MODEL` environment variable:
@@ -545,11 +593,32 @@ All agents use a **configurable LLM model** via the `LLM_MODEL` environment vari
 
 ### Usage
 
-#### Run Non-Deterministic Workflow (Recommended):
+#### Standard Mode (Hardcoded Tool Selection):
 ```bash
 source venv/bin/activate
-python demo_nondet_workflow.py
+python demo_agent_workflow.py
 ```
+
+In standard mode, agents use predefined logic to select tools. This is the default behavior.
+
+#### Dynamic Tool Discovery Mode:
+```bash
+source venv/bin/activate
+python demo_agent_workflow.py --discover-tools
+```
+
+In discovery mode, agents dynamically query the MCP server for available tools and their input schemas using the `tools/list` method. The LLM then reasons about which tool to use based on:
+- Tool descriptions and capabilities
+- Tool input schemas (parameters, types, requirements)
+- Current task context and data files
+
+**Security**: The MCP server maintains a hardcoded allowlist of tools it can execute. Discovered tools are validated against this allowlist before execution, ensuring only approved tools can be called.
+
+**Benefits**:
+- **Flexibility**: Agents adapt to new tools without code changes
+- **Intelligence**: LLM selects optimal tools based on context
+- **Transparency**: Verbose logging shows discovery process and tool selection reasoning
+- **Safety**: Allowlist validation prevents unauthorized tool execution
 
 
 ### State Management

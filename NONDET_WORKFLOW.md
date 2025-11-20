@@ -138,7 +138,7 @@ Summary:
 
 ```bash
 source venv/bin/activate
-python demo_nondet_workflow.py
+python demo_agent_workflow.py
 ```
 
 ## Benefits
@@ -155,7 +155,7 @@ python demo_nondet_workflow.py
 - No branching or retries
 - Fails fast on errors
 
-### Non-Deterministic Workflow (`demo_nondet_workflow.py`)
+### Multi-Agent Workflow (`demo_agent_workflow.py`)
 - Conditional routing: A → [B|C|D] based on validation
 - Retry logic with limits
 - Fallback mechanisms

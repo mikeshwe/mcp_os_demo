@@ -18,8 +18,8 @@ def load_markdown(md_path: Path) -> str:
 def main() -> None:
     st.set_page_config(page_title="LP One-Pager Viewer", layout="wide")
 
-    # Default to latest generated nondet one-pager; allow override via CLI arg
-    default_md = Path("output/LP_OnePager_Acme_Software_Inc_2025_09_30_nondet.md")
+    # Default to latest generated agent workflow one-pager; allow override via CLI arg
+    default_md = Path("output/LP_OnePager_Acme_Software_Inc_2025_09_30_agent.md")
     md_arg = Path(sys.argv[1]) if len(sys.argv) > 1 else default_md
     md_path = md_arg.resolve()
 
